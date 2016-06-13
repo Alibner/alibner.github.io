@@ -402,7 +402,75 @@ window.Chart = function(context){
 			labelHeight = Default(labelHeight,5);
 		}
 		function drawScale(){
-			for (var i=0; i<calculatedscale.steps; 2="" i++){="" if="" the="" line="" object="" is="" there="" (config.scaleshowline){="" ctx.beginpath();="" ctx.arc(width="" 2,="" height="" scalehop="" *="" (i="" +="" 1),="" 0,="" (math.pi="" 2),="" true);="" ctx.strokestyle="config.scaleLineColor;" ctx.linewidth="config.scaleLineWidth;" ctx.stroke();="" }="" (config.scaleshowlabels){="" ctx.textalign="center" ;="" ctx.font="config.scaleFontStyle" "="" config.scalefontsize="" "px="" config.scalefontfamily;="" var="" label="calculatedScale.labels[i];" backdrop="" within="" font="" (config.scaleshowlabelbackdrop){="" textwidth="ctx.measureText(label).width;" ctx.fillstyle="config.scaleBackdropColor;" ctx.rect(="" math.round(width="" -="" config.scalebackdroppaddingx),="" x="" math.round(height="" (scalehop="" 1))="" config.scalefontsize*0.5="" config.scalebackdroppaddingy),="" y="" math.round(textwidth="" (config.scalebackdroppaddingx*2)),="" width="" math.round(config.scalefontsize="" (config.scalebackdroppaddingy*2))="" );="" ctx.fill();="" ctx.textbaseline="middle" ctx.filltext(label,width="" 2,height="" 1)));="" function="" drawallsegments(animationdecimal){="" startangle="-Math.PI/2," anglestep="(Math.PI*2)/data.length," scaleanimation="1," rotateanimation="1;" (config.animation)="" {="" (config.animatescale)="" (config.animaterotate){="" for="" (var="" i="0;" i<data.length;="" 2,scaleanimation="" calculateoffset(data[i].value,calculatedscale,scalehop),startangle,="" rotateanimation*anglestep,="" false);="" ctx.lineto(width="" 2);="" ctx.closepath();="" if(config.segmentshowstroke){="" getvaluebounds()="" uppervalue="Number.MIN_VALUE;" lowervalue="Number.MAX_VALUE;" (data[i].value=""> upperValue) {upperValue = data[i].value;}
+			for (var i=0; i<calculatedScale.steps; i++){
+				//If the line object is there
+				if (config.scaleShowLine){
+					ctx.beginPath();
+					ctx.arc(width/2, height/2, scaleHop * (i + 1), 0, (Math.PI * 2), true);
+					ctx.strokeStyle = config.scaleLineColor;
+					ctx.lineWidth = config.scaleLineWidth;
+					ctx.stroke();
+				}
+
+				if (config.scaleShowLabels){
+					ctx.textAlign = "center";
+					ctx.font = config.scaleFontStyle + " " + config.scaleFontSize + "px " + config.scaleFontFamily;
+ 					var label =  calculatedScale.labels[i];
+					//If the backdrop object is within the font object
+					if (config.scaleShowLabelBackdrop){
+						var textWidth = ctx.measureText(label).width;
+						ctx.fillStyle = config.scaleBackdropColor;
+						ctx.beginPath();
+						ctx.rect(
+							Math.round(width/2 - textWidth/2 - config.scaleBackdropPaddingX),     //X
+							Math.round(height/2 - (scaleHop * (i + 1)) - config.scaleFontSize*0.5 - config.scaleBackdropPaddingY),//Y
+							Math.round(textWidth + (config.scaleBackdropPaddingX*2)), //Width
+							Math.round(config.scaleFontSize + (config.scaleBackdropPaddingY*2)) //Height
+						);
+						ctx.fill();
+					}
+					ctx.textBaseline = "middle";
+					ctx.fillStyle = config.scaleFontColor;
+					ctx.fillText(label,width/2,height/2 - (scaleHop * (i + 1)));
+				}
+			}
+		}
+		function drawAllSegments(animationDecimal){
+			var startAngle = -Math.PI/2,
+			angleStep = (Math.PI*2)/data.length,
+			scaleAnimation = 1,
+			rotateAnimation = 1;
+			if (config.animation) {
+				if (config.animateScale) {
+					scaleAnimation = animationDecimal;
+				}
+				if (config.animateRotate){
+					rotateAnimation = animationDecimal;
+				}
+			}
+
+			for (var i=0; i<data.length; i++){
+
+				ctx.beginPath();
+				ctx.arc(width/2,height/2,scaleAnimation * calculateOffset(data[i].value,calculatedScale,scaleHop),startAngle, startAngle + rotateAnimation*angleStep, false);
+				ctx.lineTo(width/2,height/2);
+				ctx.closePath();
+				ctx.fillStyle = data[i].color;
+				ctx.fill();
+
+				if(config.segmentShowStroke){
+					ctx.strokeStyle = config.segmentStrokeColor;
+					ctx.lineWidth = config.segmentStrokeWidth;
+					ctx.stroke();
+				}
+				startAngle += rotateAnimation*angleStep;
+			}
+		}
+		function getValueBounds() {
+			var upperValue = Number.MIN_VALUE;
+			var lowerValue = Number.MAX_VALUE;
+			for (var i=0; i<data.length; i++){
+				if (data[i].value > upperValue) {upperValue = data[i].value;}
 				if (data[i].value < lowerValue) {lowerValue = data[i].value;}
 			};
 
@@ -460,7 +528,111 @@ window.Chart = function(context){
 			ctx.translate(width/2,height/2);
 			
 			//We accept multiple data sets for radar charts, so show loop through each set
-			for (var i=0; i<data.datasets.length; 2="" i++){="" ctx.beginpath();="" ctx.moveto(0,animationdecimal*(-1*calculateoffset(data.datasets[i].data[0],calculatedscale,scalehop)));="" for="" (var="" j="1;" j<data.datasets[i].data.length;="" j++){="" ctx.rotate(rotationdegree);="" ctx.lineto(0,animationdecimal*(-1*calculateoffset(data.datasets[i].data[j],calculatedscale,scalehop)));="" }="" ctx.closepath();="" ctx.fillstyle="data.datasets[i].fillColor;" ctx.strokestyle="data.datasets[i].strokeColor;" ctx.linewidth="config.datasetStrokeWidth;" ctx.fill();="" ctx.stroke();="" if="" (config.pointdot){="" k="0;" k<data.datasets[i].data.length;="" k++){="" ctx.arc(0,animationdecimal*(-1*calculateoffset(data.datasets[i].data[k],calculatedscale,scalehop)),config.pointdotradius,2*math.pi,false);="" ctx.restore();="" function="" drawscale(){="" var="" rotationdegree="(2*Math.PI)/data.datasets[0].data.length;" ctx.save();="" ctx.translate(width="" 2,="" height="" 2);="" (config.angleshowlineout){="" h="0;" h<data.datasets[0].data.length;="" h++){="" ctx.moveto(0,0);="" ctx.lineto(0,-maxsize);="" i="0;" i<calculatedscale.steps;="" if(config.scaleshowline){="" ctx.moveto(0,-scalehop="" *="" (i+1));="" j<data.datasets[0].data.length;="" ctx.lineto(0,-scalehop="" (config.scaleshowlabels){="" ctx.textalign="center" ;="" ctx.font="config.scaleFontStyle" +="" "="" config.scalefontsize+"px="" config.scalefontfamily;="" ctx.textbaseline="middle" (config.scaleshowlabelbackdrop){="" textwidth="ctx.measureText(calculatedScale.labels[i]).width;" ctx.rect(="" math.round(-="" -="" config.scalebackdroppaddingx),="" x="" math.round((-scalehop="" (i="" 1))="" config.scalefontsize*0.5="" config.scalebackdroppaddingy),="" y="" math.round(textwidth="" (config.scalebackdroppaddingx*2)),="" width="" math.round(config.scalefontsize="" (config.scalebackdroppaddingy*2))="" );="" ctx.filltext(calculatedscale.labels[i],0,-scalehop*(i+1));="" k<data.labels.length;="" config.pointlabelfontsize+"px="" config.pointlabelfontfamily;="" opposite="Math.sin(rotationDegree*k)" (maxsize="" config.pointlabelfontsize);="" adjacent="Math.cos(rotationDegree*k)" if(rotationdegree*k="=" math.pi="" ||="" rotationdegree*k="=" 0){="" else=""> Math.PI){
+			for (var i=0; i<data.datasets.length; i++){
+				ctx.beginPath();
+
+				ctx.moveTo(0,animationDecimal*(-1*calculateOffset(data.datasets[i].data[0],calculatedScale,scaleHop)));
+				for (var j=1; j<data.datasets[i].data.length; j++){
+					ctx.rotate(rotationDegree);	
+					ctx.lineTo(0,animationDecimal*(-1*calculateOffset(data.datasets[i].data[j],calculatedScale,scaleHop)));
+			
+				}
+				ctx.closePath();
+				
+				
+				ctx.fillStyle = data.datasets[i].fillColor;
+				ctx.strokeStyle = data.datasets[i].strokeColor;
+				ctx.lineWidth = config.datasetStrokeWidth;
+				ctx.fill();
+				ctx.stroke();
+				
+								
+				if (config.pointDot){
+					ctx.fillStyle = data.datasets[i].pointColor;
+					ctx.strokeStyle = data.datasets[i].pointStrokeColor;
+					ctx.lineWidth = config.pointDotStrokeWidth;
+					for (var k=0; k<data.datasets[i].data.length; k++){
+						ctx.rotate(rotationDegree);
+						ctx.beginPath();
+						ctx.arc(0,animationDecimal*(-1*calculateOffset(data.datasets[i].data[k],calculatedScale,scaleHop)),config.pointDotRadius,2*Math.PI,false);
+						ctx.fill();
+						ctx.stroke();
+					}					
+					
+				}
+				ctx.rotate(rotationDegree);
+				
+			}
+			ctx.restore();
+			
+			
+		}
+		function drawScale(){
+			var rotationDegree = (2*Math.PI)/data.datasets[0].data.length;
+			ctx.save();
+		    ctx.translate(width / 2, height / 2);	
+			
+			if (config.angleShowLineOut){
+				ctx.strokeStyle = config.angleLineColor;		    	    
+				ctx.lineWidth = config.angleLineWidth;
+				for (var h=0; h<data.datasets[0].data.length; h++){
+					
+				    ctx.rotate(rotationDegree);
+					ctx.beginPath();
+					ctx.moveTo(0,0);
+					ctx.lineTo(0,-maxSize);
+					ctx.stroke();
+				}
+			}
+
+			for (var i=0; i<calculatedScale.steps; i++){
+				ctx.beginPath();
+				
+				if(config.scaleShowLine){
+					ctx.strokeStyle = config.scaleLineColor;
+					ctx.lineWidth = config.scaleLineWidth;
+					ctx.moveTo(0,-scaleHop * (i+1));					
+					for (var j=0; j<data.datasets[0].data.length; j++){
+					    ctx.rotate(rotationDegree);
+						ctx.lineTo(0,-scaleHop * (i+1));
+					}
+					ctx.closePath();
+					ctx.stroke();			
+							
+				}
+				
+				if (config.scaleShowLabels){				
+					ctx.textAlign = 'center';
+					ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily; 
+					ctx.textBaseline = "middle";
+					
+					if (config.scaleShowLabelBackdrop){
+						var textWidth = ctx.measureText(calculatedScale.labels[i]).width;
+						ctx.fillStyle = config.scaleBackdropColor;
+						ctx.beginPath();
+						ctx.rect(
+							Math.round(- textWidth/2 - config.scaleBackdropPaddingX),     //X
+							Math.round((-scaleHop * (i + 1)) - config.scaleFontSize*0.5 - config.scaleBackdropPaddingY),//Y
+							Math.round(textWidth + (config.scaleBackdropPaddingX*2)), //Width
+							Math.round(config.scaleFontSize + (config.scaleBackdropPaddingY*2)) //Height
+						);
+						ctx.fill();
+					}						
+					ctx.fillStyle = config.scaleFontColor;
+					ctx.fillText(calculatedScale.labels[i],0,-scaleHop*(i+1));
+				}
+
+			}
+			for (var k=0; k<data.labels.length; k++){				
+			ctx.font = config.pointLabelFontStyle + " " + config.pointLabelFontSize+"px " + config.pointLabelFontFamily;
+			ctx.fillStyle = config.pointLabelFontColor;
+				var opposite = Math.sin(rotationDegree*k) * (maxSize + config.pointLabelFontSize);
+				var adjacent = Math.cos(rotationDegree*k) * (maxSize + config.pointLabelFontSize);
+				
+				if(rotationDegree*k == Math.PI || rotationDegree*k == 0){
+					ctx.textAlign = "center";
+				}
+				else if(rotationDegree*k > Math.PI){
 					ctx.textAlign = "right";
 				}
 				else{
@@ -480,7 +652,10 @@ window.Chart = function(context){
 			labelHeight = config.scaleFontSize*2;
 			
 			var labelLength = 0;
-			for (var i=0; i<data.labels.length; i++){="" ctx.font="config.pointLabelFontStyle" +="" "="" config.pointlabelfontsize+"px="" config.pointlabelfontfamily;="" var="" textmeasurement="ctx.measureText(data.labels[i]).width;" if(textmeasurement="">labelLength) labelLength = textMeasurement;
+			for (var i=0; i<data.labels.length; i++){
+				ctx.font = config.pointLabelFontStyle + " " + config.pointLabelFontSize+"px " + config.pointLabelFontFamily;
+				var textMeasurement = ctx.measureText(data.labels[i]).width;
+				if(textMeasurement>labelLength) labelLength = textMeasurement;
 			}
 			
 			//Figure out whats the largest - the height of the text or the width of what's there, and minus it from the maximum usable size.
@@ -496,7 +671,9 @@ window.Chart = function(context){
 			var upperValue = Number.MIN_VALUE;
 			var lowerValue = Number.MAX_VALUE;
 			
-			for (var i=0; i<data.datasets.length; i++){="" for="" (var="" j="0;" j<data.datasets[i].data.length;="" j++){="" if="" (data.datasets[i].data[j]=""> upperValue){upperValue = data.datasets[i].data[j]}
+			for (var i=0; i<data.datasets.length; i++){
+				for (var j=0; j<data.datasets[i].data.length; j++){
+					if (data.datasets[i].data[j] > upperValue){upperValue = data.datasets[i].data[j]}
 					if (data.datasets[i].data[j] < lowerValue){lowerValue = data.datasets[i].data[j]}
 				}
 			}
@@ -521,7 +698,177 @@ window.Chart = function(context){
 		//In case we have a canvas that is not a square. Minus 5 pixels as padding round the edge.
 		var pieRadius = Min([height/2,width/2]) - 5;
 		
-		for (var i=0; i<data.length; 5="" i++){="" segmenttotal="" +="data[i].value;" }="" animationloop(config,null,drawpiesegments,ctx);="" function="" drawpiesegments="" (animationdecimal){="" var="" cumulativeangle="-Math.PI/2," scaleanimation="1," rotateanimation="1;" if="" (config.animation)="" {="" (config.animatescale)="" (config.animaterotate){="" for="" (var="" i="0;" i<data.length;="" segmentangle="rotateAnimation" *="" ((data[i].value="" segmenttotal)="" (math.pi*2));="" ctx.beginpath();="" ctx.arc(width="" 2,height="" 2,scaleanimation="" pieradius,cumulativeangle,cumulativeangle="" segmentangle);="" ctx.lineto(width="" 2);="" ctx.closepath();="" ctx.fillstyle="data[i].color;" ctx.fill();="" if(config.segmentshowstroke){="" ctx.linewidth="config.segmentStrokeWidth;" ctx.strokestyle="config.segmentStrokeColor;" ctx.stroke();="" doughnut="function(data,config,ctx){" in="" case="" we="" have="" a="" canvas="" that="" is="" not="" square.="" minus="" pixels="" as="" padding="" round="" the="" edge.="" doughnutradius="Min([height/2,width/2])" -="" 5;="" cutoutradius="doughnutRadius" (config.percentageinnercutout="" 100);="" doughnutradius,cumulativeangle,cumulativeangle="" segmentangle,false);="" cutoutradius,cumulativeangle="" segmentangle,cumulativeangle,true);="" line="function(data,config,ctx){" maxsize,="" scalehop,="" calculatedscale,="" labelheight,="" scaleheight,="" valuebounds,="" labeltemplatestring,="" valuehop,widestxlabel,="" xaxislength,yaxisposx,xaxisposy,="" rotatelabels="0;" calculatedrawingsizes();="" valuebounds="getValueBounds();" check="" and="" set="" scale="" labeltemplatestring="(config.scaleShowLabels)?" config.scalelabel="" :="" "";="" (!config.scaleoverride){="" calculatedscale="calculateScale(scaleHeight,valueBounds.maxSteps,valueBounds.minSteps,valueBounds.maxValue,valueBounds.minValue,labelTemplateString);" else="" steps="" config.scalesteps,="" stepvalue="" config.scalestepwidth,="" graphmin="" config.scalestartvalue,="" labels="" []="" populatelabels(labeltemplatestring,="" calculatedscale.labels,calculatedscale.steps,config.scalestartvalue,config.scalestepwidth);="" scalehop="Math.floor(scaleHeight/calculatedScale.steps);" calculatexaxissize();="" animationloop(config,drawscale,drawlines,ctx);="" drawlines(animpc){="" i<data.datasets.length;="" ctx.moveto(yaxisposx,="" xaxisposy="" animpc*(calculateoffset(data.datasets[i].data[0],calculatedscale,scalehop)))="" j="1;" j<data.datasets[i].data.length;="" j++){="" (config.beziercurve){="" ctx.beziercurveto(xpos(j-0.5),ypos(i,j-1),xpos(j-0.5),ypos(i,j),xpos(j),ypos(i,j));="" else{="" ctx.lineto(xpos(j),ypos(i,j));="" (config.datasetfill){="" ctx.lineto(yaxisposx="" (valuehop*(data.datasets[i].data.length-1)),xaxisposy);="" ctx.lineto(yaxisposx,xaxisposy);="" if(config.pointdot){="" k="0;" k<data.datasets[i].data.length;="" k++){="" ctx.arc(yaxisposx="" (valuehop="" *k),xaxisposy="" animpc*(calculateoffset(data.datasets[i].data[k],calculatedscale,scalehop)),config.pointdotradius,0,math.pi*2,true);="" ypos(dataset,iteration){="" return="" animpc*(calculateoffset(data.datasets[dataset].data[iteration],calculatedscale,scalehop));="" xpos(iteration){="" yaxisposx="" iteration);="" drawscale(){="" x="" axis="" ctx.moveto(width-widestxlabel="" 2+5,xaxisposy);="" ctx.lineto(width-(widestxlabel="" 2)-xaxislength-5,xaxisposy);="" (rotatelabels=""> 0){
+		for (var i=0; i<data.length; i++){
+			segmentTotal += data[i].value;
+		}
+		
+		
+		animationLoop(config,null,drawPieSegments,ctx);
+				
+		function drawPieSegments (animationDecimal){
+			var cumulativeAngle = -Math.PI/2,
+			scaleAnimation = 1,
+			rotateAnimation = 1;
+			if (config.animation) {
+				if (config.animateScale) {
+					scaleAnimation = animationDecimal;
+				}
+				if (config.animateRotate){
+					rotateAnimation = animationDecimal;
+				}
+			}
+			for (var i=0; i<data.length; i++){
+				var segmentAngle = rotateAnimation * ((data[i].value/segmentTotal) * (Math.PI*2));
+				ctx.beginPath();
+				ctx.arc(width/2,height/2,scaleAnimation * pieRadius,cumulativeAngle,cumulativeAngle + segmentAngle);
+				ctx.lineTo(width/2,height/2);
+				ctx.closePath();
+				ctx.fillStyle = data[i].color;
+				ctx.fill();
+				
+				if(config.segmentShowStroke){
+					ctx.lineWidth = config.segmentStrokeWidth;
+					ctx.strokeStyle = config.segmentStrokeColor;
+					ctx.stroke();
+				}
+				cumulativeAngle += segmentAngle;
+			}			
+		}		
+	}
+
+	var Doughnut = function(data,config,ctx){
+		var segmentTotal = 0;
+		
+		//In case we have a canvas that is not a square. Minus 5 pixels as padding round the edge.
+		var doughnutRadius = Min([height/2,width/2]) - 5;
+		
+		var cutoutRadius = doughnutRadius * (config.percentageInnerCutout/100);
+		
+		for (var i=0; i<data.length; i++){
+			segmentTotal += data[i].value;
+		}
+		
+		
+		animationLoop(config,null,drawPieSegments,ctx);
+		
+		
+		function drawPieSegments (animationDecimal){
+			var cumulativeAngle = -Math.PI/2,
+			scaleAnimation = 1,
+			rotateAnimation = 1;
+			if (config.animation) {
+				if (config.animateScale) {
+					scaleAnimation = animationDecimal;
+				}
+				if (config.animateRotate){
+					rotateAnimation = animationDecimal;
+				}
+			}
+			for (var i=0; i<data.length; i++){
+				var segmentAngle = rotateAnimation * ((data[i].value/segmentTotal) * (Math.PI*2));
+				ctx.beginPath();
+				ctx.arc(width/2,height/2,scaleAnimation * doughnutRadius,cumulativeAngle,cumulativeAngle + segmentAngle,false);
+				ctx.arc(width/2,height/2,scaleAnimation * cutoutRadius,cumulativeAngle + segmentAngle,cumulativeAngle,true);
+				ctx.closePath();
+				ctx.fillStyle = data[i].color;
+				ctx.fill();
+				
+				if(config.segmentShowStroke){
+					ctx.lineWidth = config.segmentStrokeWidth;
+					ctx.strokeStyle = config.segmentStrokeColor;
+					ctx.stroke();
+				}
+				cumulativeAngle += segmentAngle;
+			}			
+		}			
+		
+		
+		
+	}
+
+	var Line = function(data,config,ctx){
+		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString, valueHop,widestXLabel, xAxisLength,yAxisPosX,xAxisPosY, rotateLabels = 0;
+			
+		calculateDrawingSizes();
+		
+		valueBounds = getValueBounds();
+		//Check and set the scale
+		labelTemplateString = (config.scaleShowLabels)? config.scaleLabel : "";
+		if (!config.scaleOverride){
+			
+			calculatedScale = calculateScale(scaleHeight,valueBounds.maxSteps,valueBounds.minSteps,valueBounds.maxValue,valueBounds.minValue,labelTemplateString);
+		}
+		else {
+			calculatedScale = {
+				steps : config.scaleSteps,
+				stepValue : config.scaleStepWidth,
+				graphMin : config.scaleStartValue,
+				labels : []
+			}
+			populateLabels(labelTemplateString, calculatedScale.labels,calculatedScale.steps,config.scaleStartValue,config.scaleStepWidth);
+		}
+		
+		scaleHop = Math.floor(scaleHeight/calculatedScale.steps);
+		calculateXAxisSize();
+		animationLoop(config,drawScale,drawLines,ctx);		
+		
+		function drawLines(animPc){
+			for (var i=0; i<data.datasets.length; i++){
+				ctx.strokeStyle = data.datasets[i].strokeColor;
+				ctx.lineWidth = config.datasetStrokeWidth;
+				ctx.beginPath();
+				ctx.moveTo(yAxisPosX, xAxisPosY - animPc*(calculateOffset(data.datasets[i].data[0],calculatedScale,scaleHop)))
+
+				for (var j=1; j<data.datasets[i].data.length; j++){
+					if (config.bezierCurve){
+						ctx.bezierCurveTo(xPos(j-0.5),yPos(i,j-1),xPos(j-0.5),yPos(i,j),xPos(j),yPos(i,j));
+					}
+					else{
+						ctx.lineTo(xPos(j),yPos(i,j));
+					}
+				}
+				ctx.stroke();
+				if (config.datasetFill){
+					ctx.lineTo(yAxisPosX + (valueHop*(data.datasets[i].data.length-1)),xAxisPosY);
+					ctx.lineTo(yAxisPosX,xAxisPosY);
+					ctx.closePath();
+					ctx.fillStyle = data.datasets[i].fillColor;
+					ctx.fill();
+				}
+				else{
+					ctx.closePath();
+				}
+				if(config.pointDot){
+					ctx.fillStyle = data.datasets[i].pointColor;
+					ctx.strokeStyle = data.datasets[i].pointStrokeColor;
+					ctx.lineWidth = config.pointDotStrokeWidth;
+					for (var k=0; k<data.datasets[i].data.length; k++){
+						ctx.beginPath();
+						ctx.arc(yAxisPosX + (valueHop *k),xAxisPosY - animPc*(calculateOffset(data.datasets[i].data[k],calculatedScale,scaleHop)),config.pointDotRadius,0,Math.PI*2,true);
+						ctx.fill();
+						ctx.stroke();
+					}
+				}
+			}
+			
+			function yPos(dataSet,iteration){
+				return xAxisPosY - animPc*(calculateOffset(data.datasets[dataSet].data[iteration],calculatedScale,scaleHop));			
+			}
+			function xPos(iteration){
+				return yAxisPosX + (valueHop * iteration);
+			}
+		}
+		function drawScale(){
+			//X axis line
+			ctx.lineWidth = config.scaleLineWidth;
+			ctx.strokeStyle = config.scaleLineColor;
+			ctx.beginPath();
+			ctx.moveTo(width-widestXLabel/2+5,xAxisPosY);
+			ctx.lineTo(width-(widestXLabel/2)-xAxisLength-5,xAxisPosY);
+			ctx.stroke();
+			
+			
+			if (rotateLabels > 0){
 				ctx.save();
 				ctx.textAlign = "right";
 			}
@@ -529,7 +876,9 @@ window.Chart = function(context){
 				ctx.textAlign = "center";
 			}
 			ctx.fillStyle = config.scaleFontColor;
-			for (var i=0; i<data.labels.length; i++){="" ctx.save();="" if="" (rotatelabels=""> 0){
+			for (var i=0; i<data.labels.length; i++){
+				ctx.save();
+				if (rotateLabels > 0){
 					ctx.translate(yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize);
 					ctx.rotate(-(rotateLabels * (Math.PI/180)));
 					ctx.fillText(data.labels[i], 0,0);
@@ -565,7 +914,35 @@ window.Chart = function(context){
 			
 			ctx.textAlign = "right";
 			ctx.textBaseline = "middle";
-			for (var j=0; j<calculatedscale.steps; j++){="" ctx.beginpath();="" ctx.moveto(yaxisposx-3,xaxisposy="" -="" ((j+1)="" *="" scalehop));="" if="" (config.scaleshowgridlines){="" ctx.linewidth="config.scaleGridLineWidth;" ctx.strokestyle="config.scaleGridLineColor;" ctx.lineto(yaxisposx="" +="" xaxislength="" 5,xaxisposy="" }="" else{="" ctx.lineto(yaxisposx-0.5,xaxisposy="" ctx.stroke();="" (config.scaleshowlabels){="" ctx.filltext(calculatedscale.labels[j],yaxisposx-8,xaxisposy="" function="" calculatexaxissize(){="" var="" longesttext="1;" we="" are="" showing="" the="" labels="" ctx.font="config.scaleFontStyle" "="" config.scalefontsize+"px="" config.scalefontfamily;="" for="" (var="" i="0;" i<calculatedscale.labels.length;="" i++){="" measuredtext="ctx.measureText(calculatedScale.labels[i]).width;"> longestText)? measuredText : longestText;
+			for (var j=0; j<calculatedScale.steps; j++){
+				ctx.beginPath();
+				ctx.moveTo(yAxisPosX-3,xAxisPosY - ((j+1) * scaleHop));
+				if (config.scaleShowGridLines){
+					ctx.lineWidth = config.scaleGridLineWidth;
+					ctx.strokeStyle = config.scaleGridLineColor;
+					ctx.lineTo(yAxisPosX + xAxisLength + 5,xAxisPosY - ((j+1) * scaleHop));					
+				}
+				else{
+					ctx.lineTo(yAxisPosX-0.5,xAxisPosY - ((j+1) * scaleHop));
+				}
+				
+				ctx.stroke();
+				
+				if (config.scaleShowLabels){
+					ctx.fillText(calculatedScale.labels[j],yAxisPosX-8,xAxisPosY - ((j+1) * scaleHop));
+				}
+			}
+			
+			
+		}
+		function calculateXAxisSize(){
+			var longestText = 1;
+			//if we are showing the labels
+			if (config.scaleShowLabels){
+				ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
+				for (var i=0; i<calculatedScale.labels.length; i++){
+					var measuredText = ctx.measureText(calculatedScale.labels[i]).width;
+					longestText = (measuredText > longestText)? measuredText : longestText;
 				}
 				//Add a little extra padding from the y axis
 				longestText +=10;
@@ -582,7 +959,10 @@ window.Chart = function(context){
 			//Need to check the X axis first - measure the length of each text metric, and figure out if we need to rotate by 45 degrees.
 			ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
 			widestXLabel = 1;
-			for (var i=0; i<data.labels.length; i++){="" var="" textlength="ctx.measureText(data.labels[i]).width;" if="" the="" text="" length="" is="" longer="" -="" make="" that="" equal="" to="" longest="" text!="" widestxlabel="(textLength"> widestXLabel)? textLength : widestXLabel;
+			for (var i=0; i<data.labels.length; i++){
+				var textLength = ctx.measureText(data.labels[i]).width;
+				//If the text length is longer - make that equal to longest text!
+				widestXLabel = (textLength > widestXLabel)? textLength : widestXLabel;
 			}
 			if (width/data.labels.length < widestXLabel){
 				rotateLabels = 45;
@@ -615,7 +995,9 @@ window.Chart = function(context){
 		function getValueBounds() {
 			var upperValue = Number.MIN_VALUE;
 			var lowerValue = Number.MAX_VALUE;
-			for (var i=0; i<data.datasets.length; i++){="" for="" (var="" j="0;" j<data.datasets[i].data.length;="" j++){="" if="" (="" data.datasets[i].data[j]=""> upperValue) { upperValue = data.datasets[i].data[j] };
+			for (var i=0; i<data.datasets.length; i++){
+				for (var j=0; j<data.datasets[i].data.length; j++){
+					if ( data.datasets[i].data[j] > upperValue) { upperValue = data.datasets[i].data[j] };
 					if ( data.datasets[i].data[j] < lowerValue) { lowerValue = data.datasets[i].data[j] };
 				}
 			};
@@ -664,7 +1046,37 @@ window.Chart = function(context){
 		
 		function drawBars(animPc){
 			ctx.lineWidth = config.barStrokeWidth;
-			for (var i=0; i<data.datasets.length; i++){="" ctx.fillstyle="data.datasets[i].fillColor;" ctx.strokestyle="data.datasets[i].strokeColor;" for="" (var="" j="0;" j<data.datasets[i].data.length;="" j++){="" var="" baroffset="yAxisPosX" +="" config.barvaluespacing="" valuehop*j="" barwidth*i="" config.bardatasetspacing*i="" config.barstrokewidth*i;="" ctx.beginpath();="" ctx.moveto(baroffset,="" xaxisposy);="" ctx.lineto(baroffset,="" xaxisposy="" -="" animpc*calculateoffset(data.datasets[i].data[j],calculatedscale,scalehop)+(config.barstrokewidth="" 2));="" ctx.lineto(baroffset="" barwidth,="" if(config.barshowstroke){="" ctx.stroke();="" }="" ctx.closepath();="" ctx.fill();="" function="" drawscale(){="" x="" axis="" line="" ctx.linewidth="config.scaleLineWidth;" ctx.moveto(width-widestxlabel="" 2+5,xaxisposy);="" ctx.lineto(width-(widestxlabel="" 2)-xaxislength-5,xaxisposy);="" if="" (rotatelabels=""> 0){
+			for (var i=0; i<data.datasets.length; i++){
+					ctx.fillStyle = data.datasets[i].fillColor;
+					ctx.strokeStyle = data.datasets[i].strokeColor;
+				for (var j=0; j<data.datasets[i].data.length; j++){
+					var barOffset = yAxisPosX + config.barValueSpacing + valueHop*j + barWidth*i + config.barDatasetSpacing*i + config.barStrokeWidth*i;
+					
+					ctx.beginPath();
+					ctx.moveTo(barOffset, xAxisPosY);
+					ctx.lineTo(barOffset, xAxisPosY - animPc*calculateOffset(data.datasets[i].data[j],calculatedScale,scaleHop)+(config.barStrokeWidth/2));
+					ctx.lineTo(barOffset + barWidth, xAxisPosY - animPc*calculateOffset(data.datasets[i].data[j],calculatedScale,scaleHop)+(config.barStrokeWidth/2));
+					ctx.lineTo(barOffset + barWidth, xAxisPosY);
+					if(config.barShowStroke){
+						ctx.stroke();
+					}
+					ctx.closePath();
+					ctx.fill();
+				}
+			}
+			
+		}
+		function drawScale(){
+			//X axis line
+			ctx.lineWidth = config.scaleLineWidth;
+			ctx.strokeStyle = config.scaleLineColor;
+			ctx.beginPath();
+			ctx.moveTo(width-widestXLabel/2+5,xAxisPosY);
+			ctx.lineTo(width-(widestXLabel/2)-xAxisLength-5,xAxisPosY);
+			ctx.stroke();
+			
+			
+			if (rotateLabels > 0){
 				ctx.save();
 				ctx.textAlign = "right";
 			}
@@ -672,7 +1084,9 @@ window.Chart = function(context){
 				ctx.textAlign = "center";
 			}
 			ctx.fillStyle = config.scaleFontColor;
-			for (var i=0; i<data.labels.length; i++){="" ctx.save();="" if="" (rotatelabels=""> 0){
+			for (var i=0; i<data.labels.length; i++){
+				ctx.save();
+				if (rotateLabels > 0){
 					ctx.translate(yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize);
 					ctx.rotate(-(rotateLabels * (Math.PI/180)));
 					ctx.fillText(data.labels[i], 0,0);
@@ -703,7 +1117,34 @@ window.Chart = function(context){
 			
 			ctx.textAlign = "right";
 			ctx.textBaseline = "middle";
-			for (var j=0; j<calculatedscale.steps; j++){="" ctx.beginpath();="" ctx.moveto(yaxisposx-3,xaxisposy="" -="" ((j+1)="" *="" scalehop));="" if="" (config.scaleshowgridlines){="" ctx.linewidth="config.scaleGridLineWidth;" ctx.strokestyle="config.scaleGridLineColor;" ctx.lineto(yaxisposx="" +="" xaxislength="" 5,xaxisposy="" }="" else{="" ctx.lineto(yaxisposx-0.5,xaxisposy="" ctx.stroke();="" (config.scaleshowlabels){="" ctx.filltext(calculatedscale.labels[j],yaxisposx-8,xaxisposy="" function="" calculatexaxissize(){="" var="" longesttext="1;" we="" are="" showing="" the="" labels="" ctx.font="config.scaleFontStyle" "="" config.scalefontsize+"px="" config.scalefontfamily;="" for="" (var="" i="0;" i<calculatedscale.labels.length;="" i++){="" measuredtext="ctx.measureText(calculatedScale.labels[i]).width;"> longestText)? measuredText : longestText;
+			for (var j=0; j<calculatedScale.steps; j++){
+				ctx.beginPath();
+				ctx.moveTo(yAxisPosX-3,xAxisPosY - ((j+1) * scaleHop));
+				if (config.scaleShowGridLines){
+					ctx.lineWidth = config.scaleGridLineWidth;
+					ctx.strokeStyle = config.scaleGridLineColor;
+					ctx.lineTo(yAxisPosX + xAxisLength + 5,xAxisPosY - ((j+1) * scaleHop));					
+				}
+				else{
+					ctx.lineTo(yAxisPosX-0.5,xAxisPosY - ((j+1) * scaleHop));
+				}
+				
+				ctx.stroke();
+				if (config.scaleShowLabels){
+					ctx.fillText(calculatedScale.labels[j],yAxisPosX-8,xAxisPosY - ((j+1) * scaleHop));
+				}
+			}
+			
+			
+		}
+		function calculateXAxisSize(){
+			var longestText = 1;
+			//if we are showing the labels
+			if (config.scaleShowLabels){
+				ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
+				for (var i=0; i<calculatedScale.labels.length; i++){
+					var measuredText = ctx.measureText(calculatedScale.labels[i]).width;
+					longestText = (measuredText > longestText)? measuredText : longestText;
 				}
 				//Add a little extra padding from the y axis
 				longestText +=10;
@@ -722,7 +1163,10 @@ window.Chart = function(context){
 			//Need to check the X axis first - measure the length of each text metric, and figure out if we need to rotate by 45 degrees.
 			ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
 			widestXLabel = 1;
-			for (var i=0; i<data.labels.length; i++){="" var="" textlength="ctx.measureText(data.labels[i]).width;" if="" the="" text="" length="" is="" longer="" -="" make="" that="" equal="" to="" longest="" text!="" widestxlabel="(textLength"> widestXLabel)? textLength : widestXLabel;
+			for (var i=0; i<data.labels.length; i++){
+				var textLength = ctx.measureText(data.labels[i]).width;
+				//If the text length is longer - make that equal to longest text!
+				widestXLabel = (textLength > widestXLabel)? textLength : widestXLabel;
 			}
 			if (width/data.labels.length < widestXLabel){
 				rotateLabels = 45;
@@ -755,7 +1199,9 @@ window.Chart = function(context){
 		function getValueBounds() {
 			var upperValue = Number.MIN_VALUE;
 			var lowerValue = Number.MAX_VALUE;
-			for (var i=0; i<data.datasets.length; i++){="" for="" (var="" j="0;" j<data.datasets[i].data.length;="" j++){="" if="" (="" data.datasets[i].data[j]=""> upperValue) { upperValue = data.datasets[i].data[j] };
+			for (var i=0; i<data.datasets.length; i++){
+				for (var j=0; j<data.datasets[i].data.length; j++){
+					if ( data.datasets[i].data[j] > upperValue) { upperValue = data.datasets[i].data[j] };
 					if ( data.datasets[i].data[j] < lowerValue) { lowerValue = data.datasets[i].data[j] };
 				}
 			};
@@ -808,7 +1254,51 @@ window.Chart = function(context){
 				percentAnimComplete += animFrameAmount;
 				animateFrame();	
 				//Stop the loop continuing forever
-				if (percentAnimComplete <= 1000="" 1){="" requestanimframe(animloop);="" }="" else{="" if="" (typeof="" config.onanimationcomplete="=" "function")="" config.onanimationcomplete();="" declare="" global="" functions="" to="" be="" called="" within="" this="" namespace="" here.="" shim="" layer="" with="" settimeout="" fallback="" var="" requestanimframe="(function(){" return="" window.requestanimationframe="" ||="" window.webkitrequestanimationframe="" window.mozrequestanimationframe="" window.orequestanimationframe="" window.msrequestanimationframe="" function(callback)="" {="" window.settimeout(callback,="" 60);="" };="" })();="" function="" calculatescale(drawingheight,maxsteps,minsteps,maxvalue,minvalue,labeltemplatestring){="" graphmin,graphmax,graphrange,stepvalue,numberofsteps,valuerange,rangeorderofmagnitude,decimalnum;="" valuerange="maxValue" -="" minvalue;="" rangeorderofmagnitude="calculateOrderOfMagnitude(valueRange);" graphmin="Math.floor(minValue" (1="" *="" math.pow(10,="" rangeorderofmagnitude)))="" rangeorderofmagnitude);="" graphmax="Math.ceil(maxValue" graphrange="graphMax" graphmin;="" stepvalue="Math.pow(10," numberofsteps="Math.round(graphRange" stepvalue);="" compare="" number="" of="" steps="" the="" max="" and="" min="" for="" that="" size="" graph,="" add="" in="" half="" need="" be.="" while(numberofsteps="" <="" minsteps=""> maxSteps) {
+				if (percentAnimComplete <= 1){
+					requestAnimFrame(animLoop);
+				}
+				else{
+					if (typeof config.onAnimationComplete == "function") config.onAnimationComplete();
+				}
+			
+		}		
+		
+	}
+
+	//Declare global functions to be called within this namespace here.
+	
+	
+	// shim layer with setTimeout fallback
+	var requestAnimFrame = (function(){
+		return window.requestAnimationFrame ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			window.oRequestAnimationFrame ||
+			window.msRequestAnimationFrame ||
+			function(callback) {
+				window.setTimeout(callback, 1000 / 60);
+			};
+	})();
+
+	function calculateScale(drawingHeight,maxSteps,minSteps,maxValue,minValue,labelTemplateString){
+			var graphMin,graphMax,graphRange,stepValue,numberOfSteps,valueRange,rangeOrderOfMagnitude,decimalNum;
+			
+			valueRange = maxValue - minValue;
+			
+			rangeOrderOfMagnitude = calculateOrderOfMagnitude(valueRange);
+
+        	graphMin = Math.floor(minValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
+            
+            graphMax = Math.ceil(maxValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
+            
+            graphRange = graphMax - graphMin;
+            
+            stepValue = Math.pow(10, rangeOrderOfMagnitude);
+            
+	        numberOfSteps = Math.round(graphRange / stepValue);
+	        
+	        //Compare number of steps to the max and min for that size graph, and add in half steps if need be.	        
+	        while(numberOfSteps < minSteps || numberOfSteps > maxSteps) {
 	        	if (numberOfSteps < minSteps){
 			        stepValue /= 2;
 			        numberOfSteps = Math.round(graphRange/stepValue);
@@ -920,7 +1410,8 @@ window.Chart = function(context){
 	        // Convert the template into pure JavaScript
 	        str
 	          .replace(/[\r\t\n]/g, " ")
-	          .split("<%").join("\t") .replace(="" ((^|%="">)[^\t]*)'/g, "$1\r")
+	          .split("<%").join("\t")
+	          .replace(/((^|%>)[^\t]*)'/g, "$1\r")
 	          .replace(/\t=(.*?)%>/g, "',$1,'")
 	          .split("\t").join("');")
 	          .split("%>").join("p.push('")
@@ -933,4 +1424,3 @@ window.Chart = function(context){
 }
 
 
-</%").join("\t")></=></data.datasets.length;></data.labels.length;></calculatedscale.steps;></data.labels.length;></data.datasets.length;></data.datasets.length;></data.labels.length;></calculatedscale.steps;></data.labels.length;></data.length;></data.datasets.length;></data.labels.length;></data.datasets.length;></calculatedscale.steps;></%=value%></%=value%></%=value%></%=value%>
