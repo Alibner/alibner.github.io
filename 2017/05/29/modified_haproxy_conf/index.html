@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="查询根据域名来查询，这里的域名判断仅做(.)以及数字字母的处理，其他不做判断 比如位数，域名合法性等等 添加或更新根据backend来判断  不存在，直接更新，插入新记录 已存在，根据server来判断 不存在，直接插入新记录 已存在，直接更新    删除">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3 修改Haproxy配置文件">
+<meta property="og:url" content="http://alibner.me/2017/05/29/modified_haproxy_conf/index.html">
+<meta property="og:site_name" content="Alibner&#39; Blog">
+<meta property="og:description" content="查询根据域名来查询，这里的域名判断仅做(.)以及数字字母的处理，其他不做判断 比如位数，域名合法性等等 添加或更新根据backend来判断  不存在，直接更新，插入新记录 已存在，根据server来判断 不存在，直接插入新记录 已存在，直接更新    删除">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-26T13:45:10.772Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python3 修改Haproxy配置文件">
+<meta name="twitter:description" content="查询根据域名来查询，这里的域名判断仅做(.)以及数字字母的处理，其他不做判断 比如位数，域名合法性等等 添加或更新根据backend来判断  不存在，直接更新，插入新记录 已存在，根据server来判断 不存在，直接插入新记录 已存在，直接更新    删除">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://alibner.me/2017/05/29/modified_haproxy_conf/"/>
+
+
+
+
+
+  <title>Python3 修改Haproxy配置文件 | Alibner' Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alibner' Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Focus on and do it best.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alibner.me/2017/05/29/modified_haproxy_conf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alibner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/foys.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alibner' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python3 修改Haproxy配置文件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-29T11:14:34+00:00">
+                2017-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python应用/" itemprop="url" rel="index">
+                    <span itemprop="name">Python应用</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/29/modified_haproxy_conf/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/05/29/modified_haproxy_conf/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/05/29/modified_haproxy_conf/" class="leancloud_visitors" data-flag-title="Python3 修改Haproxy配置文件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>根据域名来查询，这里的域名判断仅做(.)以及数字字母的处理，其他不做判断</p>
+<p>比如位数，域名合法性等等</p>
+<h2 id="添加或更新"><a href="#添加或更新" class="headerlink" title="添加或更新"></a>添加或更新</h2><p>根据<code>backend</code>来判断</p>
+<ul>
+<li>不存在，直接更新，插入新记录</li>
+<li>已存在，根据<code>server</code>来判断<ul>
+<li>不存在，直接插入新记录</li>
+<li>已存在，直接更新</li>
+</ul>
+</li>
+</ul>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><a id="more"></a>
+<p>走一遍<code>select_pre</code>，验证通过则判断用户输入的是域名<br>走一遍<code>add_pre</code>，验证通过则判断用户输入的是<code>json</code>串</p>
+<p>根据不同的情况， 判断</p>
+<ul>
+<li>域名<ul>
+<li>根据<code>backend</code>判断<ul>
+<li>存在 - 直接清空</li>
+<li>不存在 - 报错</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>json</code>串<ul>
+<li>根据<code>backend</code>判断<ul>
+<li>存在<code>backend</code>，判断<code>backend</code>下是几条记录，<ul>
+<li>一条记录则清空（连带<code>backend</code>行业也删除）</li>
+<li>多条记录则删除一条<code>server</code>记录</li>
+</ul>
+</li>
+<li>不存在<code>backend</code>，报错</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"><span class="comment"># modified by Lisp</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_cfg_content</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    读取配置文件内容，保存整个内容到列表</span></span><br><span class="line"><span class="string">    :return: list of all config content</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    temp_list = []</span><br><span class="line">    <span class="keyword">with</span> open(cfg_file, <span class="string">'r'</span>) <span class="keyword">as</span> r_f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> r_f:</span><br><span class="line">            <span class="comment"># all_cfg_list.append(line.strip())</span></span><br><span class="line">            <span class="comment"># 保持原生状态</span></span><br><span class="line">            temp_list.append(line)</span><br><span class="line">    <span class="keyword">return</span> temp_list</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_to_cfg</span><span class="params">(para_list)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    将列表的内容重新写回配置文件</span></span><br><span class="line"><span class="string">    :param para_list: 更新后传过来的 all_cfg_list </span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">with</span> open(cfg_file, <span class="string">'w+'</span>) <span class="keyword">as</span> w_f:</span><br><span class="line">        <span class="keyword">for</span> w_line <span class="keyword">in</span> para_list:</span><br><span class="line">            w_f.writelines(w_line)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_backend_server_dict</span><span class="params">(para_list)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    根据all_cfg_list列表，得到backend下标和server的信息</span></span><br><span class="line"><span class="string">    &#123;</span></span><br><span class="line"><span class="string">    34: ['server 100.1.7.11 100.1.7.11 weight 20 maxconn 3000\n'],</span></span><br><span class="line"><span class="string">    27: ['server 100.1.7.8 100.1.7.8 weight 20 maxconn 3000\n', 'server 100.1.7.9 100.1.7.9 weight 20 maxconn 3000\n'],</span></span><br><span class="line"><span class="string">    31: ['    server 100.1.7.10 100.1.7.10 weight 20 maxconn 3000\n']</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    :param para_list:  get_cfg_content 函数返回的列表</span></span><br><span class="line"><span class="string">    :return: dict</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 返回的字典</span></span><br><span class="line">    temp_all_dic = &#123;&#125;</span><br><span class="line">    <span class="comment"># 迭代便利整个列表</span></span><br><span class="line">    <span class="keyword">for</span> each_str <span class="keyword">in</span> iter(para_list):</span><br><span class="line">        <span class="comment"># 如果列表中的元素以backend开头，</span></span><br><span class="line">        <span class="keyword">if</span> each_str.strip().startswith(<span class="string">'backend'</span>):</span><br><span class="line">            <span class="comment"># 记下下标</span></span><br><span class="line">            index_each_str = para_list.index(each_str)</span><br><span class="line">            <span class="comment"># 定义临时列表</span></span><br><span class="line">            temp_all_dic[index_each_str] = []</span><br><span class="line">            <span class="comment"># 定义临时变量，目的是为了保留 当前backend的下标</span></span><br><span class="line">            n = index_each_str</span><br><span class="line">            <span class="comment"># 当前下标+1，循环</span></span><br><span class="line">            <span class="keyword">while</span> n + <span class="number">1</span> &lt; len(para_list):</span><br><span class="line">                <span class="comment"># 下一个下标，也就是backend下，第一个server的下标</span></span><br><span class="line">                next_each_str = para_list[n + <span class="number">1</span>]</span><br><span class="line">                <span class="comment"># 如果是以server开头</span></span><br><span class="line">                <span class="keyword">if</span> str(next_each_str).strip().startswith(<span class="string">'server'</span>):</span><br><span class="line">                    <span class="comment"># 添加到临时列表</span></span><br><span class="line">                    temp_all_dic[index_each_str].append(next_each_str)</span><br><span class="line">                <span class="comment"># 否则就跳出while循环</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="comment"># 继续往下寻找</span></span><br><span class="line">                n += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 返回</span></span><br><span class="line">    <span class="keyword">return</span> temp_all_dic</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_pre</span><span class="params">(u)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    查询前的判断</span></span><br><span class="line"><span class="string">    :param u: 用户输入</span></span><br><span class="line"><span class="string">    :return: str</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 不是字符串类型</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(u, str):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'503'</span></span><br><span class="line">    <span class="comment"># 判断域名是否有足够的'.'</span></span><br><span class="line">    <span class="keyword">if</span> u.count(<span class="string">'.'</span>) &lt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'504'</span></span><br><span class="line">    <span class="comment"># 两个.是否紧挨</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">'XX'</span> <span class="keyword">in</span> u.lower().replace(<span class="string">'.'</span>, <span class="string">'X'</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'505'</span></span><br><span class="line">    <span class="comment"># 开头结尾</span></span><br><span class="line">    <span class="keyword">if</span> u.startswith(<span class="string">'.'</span>) <span class="keyword">or</span> u.endswith(<span class="string">'.'</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'514'</span></span><br><span class="line">    <span class="comment"># 符合条件的</span></span><br><span class="line">    <span class="keyword">if</span> u.replace(<span class="string">'.'</span>, <span class="string">'x'</span>).isalpha() <span class="keyword">or</span> u.replace(<span class="string">'.'</span>, <span class="string">'x'</span>).isalnum():</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'400'</span></span><br><span class="line">    <span class="comment"># 否则</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'599'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_pre</span><span class="params">(u)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    添加前的判断</span></span><br><span class="line"><span class="string">    :param u: 用户输入</span></span><br><span class="line"><span class="string">    :return: str</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 转换用户输入为dict</span></span><br><span class="line">        u_dic = eval(u)</span><br><span class="line">        <span class="comment"># 判断是否包含这两个键</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'backend'</span> <span class="keyword">not</span> <span class="keyword">in</span> u_dic:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'501'</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'record'</span> <span class="keyword">not</span> <span class="keyword">in</span> u_dic:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'502'</span></span><br><span class="line">        <span class="comment"># 如果有backend，则去select_pre继续判断，因为都是域名判断</span></span><br><span class="line">        judge_backend = select_pre(u_dic[<span class="string">'backend'</span>])</span><br><span class="line">        <span class="keyword">if</span> judge_backend != <span class="string">'500'</span>:</span><br><span class="line">            <span class="keyword">return</span> judge_backend</span><br><span class="line">        <span class="comment"># record 类型 是否为dict</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(u_dic[<span class="string">'record'</span>], dict):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'506'</span></span><br><span class="line">        <span class="comment"># 判断server, weight, maxconn 关键字</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'server'</span> <span class="keyword">not</span> <span class="keyword">in</span> u_dic[<span class="string">'record'</span>]:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'507'</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'weight'</span> <span class="keyword">not</span> <span class="keyword">in</span> u_dic[<span class="string">'record'</span>]:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'508'</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'maxconn'</span> <span class="keyword">not</span> <span class="keyword">in</span> u_dic[<span class="string">'record'</span>]:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'509'</span></span><br><span class="line">        <span class="comment"># 判断值类型</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(u_dic[<span class="string">'record'</span>][<span class="string">'server'</span>], str):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'510'</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(u_dic[<span class="string">'record'</span>][<span class="string">'weight'</span>], int):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'511'</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(u_dic[<span class="string">'record'</span>][<span class="string">'maxconn'</span>], int):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'512'</span></span><br><span class="line">        <span class="keyword">if</span> u_dic[<span class="string">'record'</span>][<span class="string">'server'</span>].count(<span class="string">'.'</span>) &lt; <span class="number">3</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'513'</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(u_dic[<span class="string">'record'</span>][<span class="string">'server'</span>].replace(<span class="string">'.'</span>, <span class="string">''</span>), int):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'513'</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'XX'</span> <span class="keyword">in</span> u_dic[<span class="string">'record'</span>][<span class="string">'server'</span>].replace(<span class="string">'.'</span>, <span class="string">'X'</span>):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'513'</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'500'</span></span><br><span class="line">    <span class="keyword">except</span> (SyntaxError, NameError, KeyError, TypeError):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'599'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">del_pre</span><span class="params">(u)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    删除前的判断</span></span><br><span class="line"><span class="string">    :param u: 用户输入</span></span><br><span class="line"><span class="string">    :return: str</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 判断是否为域名</span></span><br><span class="line">    <span class="keyword">if</span> select_pre(u) == <span class="string">'400'</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'400'</span></span><br><span class="line">    <span class="comment"># 判断是否为json字符串</span></span><br><span class="line">    <span class="keyword">if</span> add_pre(u) == <span class="string">'500'</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'500'</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'599'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_user_input</span><span class="params">(*args)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    各功能函数前,得到用户的输入,并且返回. 各功能主函数都有调用</span></span><br><span class="line"><span class="string">    :return: str</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 提示语</span></span><br><span class="line">    uc_prompt = args[<span class="number">1</span>]</span><br><span class="line">    <span class="comment"># 用户选择的功能ID</span></span><br><span class="line">    uc_pre = args[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        u = input(uc_prompt).strip()</span><br><span class="line">        <span class="keyword">if</span> u == <span class="string">''</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="comment"># 根据用户输入的功能ID，匹配到字典的函数，去执行*_pre函数</span></span><br><span class="line">        gu = choice_dic[uc_pre](u)</span><br><span class="line">        <span class="comment"># 根据函数的返回，将结果返回给各功能函数</span></span><br><span class="line">        <span class="comment"># 查询验证OK，返回400</span></span><br><span class="line">        <span class="keyword">if</span> gu == <span class="string">'400'</span>:</span><br><span class="line">            <span class="keyword">return</span> u</span><br><span class="line">        <span class="comment"># 添加验证OK，返回500</span></span><br><span class="line">        <span class="keyword">elif</span> gu == <span class="string">'500'</span>:</span><br><span class="line">            <span class="keyword">return</span> eval(u)</span><br><span class="line">        <span class="comment"># 验证不OK，返回报错信息，继续while循环</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(rt_dic[gu])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_by_domain</span><span class="params">(uc=<span class="string">'1'</span>, res_num=None, domain=None)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    根据get_cfg_content 和 get_backend_server_dict查询，来判断打印出匹配记录</span></span><br><span class="line"><span class="string">    :param uc: 用户选择, 传给函数get_user_input参用</span></span><br><span class="line"><span class="string">    :param res_num: 添加或者删除完,调用select函数,传值,传添加的标志</span></span><br><span class="line"><span class="string">    :param domain: 默认为空,表示直接调用此函数; 否则为其他函数调用</span></span><br><span class="line"><span class="string">    :return: 无返回</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 拿刀所有内容列表，以及匹配到的backend和server的字典</span></span><br><span class="line">    all_cfg_list = get_cfg_content()</span><br><span class="line">    bs_dic = get_backend_server_dict(all_cfg_list)</span><br><span class="line">    <span class="comment"># 如果是直接执行此函数</span></span><br><span class="line">    <span class="keyword">if</span> domain <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="comment"># 调用用户输入函数</span></span><br><span class="line">        domain = get_user_input(uc, prompt_dic[uc])</span><br><span class="line">    <span class="comment"># 函数主程序区域</span></span><br><span class="line">    <span class="comment"># 遍历字典的key，也就是每个backend的下标</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> bs_dic:</span><br><span class="line">        <span class="comment"># 如果用户输入的域名存在这个backend行</span></span><br><span class="line">        <span class="keyword">if</span> domain <span class="keyword">in</span> all_cfg_list[item]:</span><br><span class="line">            <span class="comment"># 那么遍历 bs_dic 字典中对应 key 的 values ；是一个列表</span></span><br><span class="line">            <span class="keyword">for</span> each_server <span class="keyword">in</span> bs_dic[item]:</span><br><span class="line">                print(each_server.strip())</span><br><span class="line">            <span class="comment"># 下面的判断是为了给其它函数调用时带的参数</span></span><br><span class="line">            <span class="comment"># 为空，表示函数自己，则执行默认查询结果</span></span><br><span class="line">            <span class="keyword">if</span> res_num <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">                print(<span class="string">'\n&#123;&#125;成功, 总共&#123;&#125;条记录'</span>.format(pt_dic[uc], len(bs_dic[item])))</span><br><span class="line">            <span class="comment"># 删除函数传入删除成功标志</span></span><br><span class="line">            <span class="keyword">elif</span> res_num == <span class="string">'8'</span>:</span><br><span class="line">                print(<span class="string">'\n&#123;&#125;成功，在已存在的backend下&lt;删除&gt;一条记录, 剩余&#123;&#125;条server记录'</span>.format(pt_dic[uc], len(bs_dic[item])))</span><br><span class="line">            <span class="comment"># 添加函数传入更新标志</span></span><br><span class="line">            <span class="keyword">elif</span> res_num == <span class="string">'3'</span>:</span><br><span class="line">                <span class="comment"># 看似失败，其实是成功更新了</span></span><br><span class="line">                print(<span class="string">'\n&#123;&#125;失败, 在已存在的backend下&lt;更新&gt;一条记录, 总共&#123;&#125;条server记录'</span>.format(pt_dic[uc], len(bs_dic[item])))</span><br><span class="line">            <span class="comment"># 添加函数传入添加新记录标志</span></span><br><span class="line">            <span class="keyword">elif</span> res_num == <span class="string">'2'</span>:</span><br><span class="line">                print(<span class="string">'\n&#123;&#125;成功, 在已存在的backend下&lt;添加&gt;一条记录, 总共&#123;&#125;条server记录'</span>.format(pt_dic[uc], len(bs_dic[item])))</span><br><span class="line">            <span class="comment"># 添加函数传入新增记录标志</span></span><br><span class="line">            <span class="keyword">elif</span> res_num == <span class="string">'1'</span>:</span><br><span class="line">                print(<span class="string">'\n&#123;&#125;成功, &lt;新增&gt;一个backend, 总共&#123;&#125;条server记录'</span>.format(pt_dic[uc], len(bs_dic[item])))</span><br><span class="line">            <span class="comment"># 跳出for循环，不执行else子句</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="comment"># 执行到这里，说明上面的子句没有break，意味着没有符合条件的域名</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 则根据其他函数传入的参数进行判断</span></span><br><span class="line">        <span class="comment"># 删除函数，删除完调用如果走到else，表示已经清空</span></span><br><span class="line">        <span class="keyword">if</span> res_num == <span class="string">'9'</span>:</span><br><span class="line">            print(<span class="string">'\n&#123;&#125;成功，已清空此域名的backend记录'</span>.format(pt_dic[uc]))</span><br><span class="line">        <span class="comment"># 默认执行</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">'\n&#123;&#125;失败，无此域名的记录'</span>.format(pt_dic[uc]))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_by_data</span><span class="params">(uc)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    增加或者更新函数，根据get_cfg_content 和 get_backend_server_dict</span></span><br><span class="line"><span class="string">    :param uc: 用户输入</span></span><br><span class="line"><span class="string">    :return: 无返回</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 传给 select_by_domain 函数的参数，用来匹配打印</span></span><br><span class="line">    <span class="comment"># 1 无backend, 添加一个backend,一条server记录</span></span><br><span class="line">    <span class="comment"># 2 有backend, 无要添加的server, 添加一条server</span></span><br><span class="line">    <span class="comment"># 3 有backend, 有要添加的server, 更新一条server</span></span><br><span class="line">    add_flag = <span class="string">'1'</span></span><br><span class="line">    all_cfg_list = get_cfg_content()</span><br><span class="line">    bs_dic = get_backend_server_dict(all_cfg_list)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 本身就是字典，但是为了下面的代码，语法不警告，还是转一下</span></span><br><span class="line">    add_dic = dict(get_user_input(uc, prompt_dic[uc]))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 插入的server 行 字符串</span></span><br><span class="line">    server_str = <span class="string">'\tserver &#123;server&#125; &#123;server&#125; weight &#123;weight&#125; maxconn &#123;maxconn&#125;\n'</span>.format_map(add_dic[<span class="string">'record'</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> bs_dic:</span><br><span class="line">        <span class="keyword">if</span> add_dic[<span class="string">'backend'</span>] <span class="keyword">in</span> all_cfg_list[item]:</span><br><span class="line">            <span class="comment"># 要添加的域名已经存在配置文件</span></span><br><span class="line">            <span class="comment"># 拿到要添加的server IP</span></span><br><span class="line">            add_server_ip = add_dic[<span class="string">'record'</span>][<span class="string">'server'</span>]</span><br><span class="line">            <span class="keyword">for</span> each_ip <span class="keyword">in</span> bs_dic[item]:</span><br><span class="line">                <span class="comment"># 如果已经存在此server,则直接更新</span></span><br><span class="line">                <span class="keyword">if</span> add_server_ip <span class="keyword">in</span> each_ip:</span><br><span class="line">                    <span class="comment"># 更新all_cfg_list</span></span><br><span class="line">                    <span class="comment"># 先拿到这个server在all_cfg_list中的下标, 再更新</span></span><br><span class="line">                    update_index = bs_dic[item].index(each_ip) + item + <span class="number">1</span></span><br><span class="line">                    all_cfg_list[update_index] = server_str</span><br><span class="line">                    add_flag = <span class="string">'3'</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                add_index = item + len(bs_dic[item]) + <span class="number">1</span></span><br><span class="line">                add_server_str = server_str</span><br><span class="line">                all_cfg_list.insert(add_index, add_server_str)</span><br><span class="line">                add_flag = <span class="string">'2'</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 不存在</span></span><br><span class="line">        <span class="comment"># 直接插入到 最后一个backend 的最后一个server下面</span></span><br><span class="line">        <span class="comment"># 获取最大的下标,也就是最后一个backend</span></span><br><span class="line">        max_index = max(list(bs_dic.keys()))</span><br><span class="line">        <span class="comment"># 获取最后一个backend的 server个数</span></span><br><span class="line">        item_length = len(bs_dic[max_index])</span><br><span class="line">        <span class="comment"># 得到最后一个server的下标</span></span><br><span class="line">        each_item = max_index + item_length</span><br><span class="line">        <span class="comment"># 要插入的空行下标</span></span><br><span class="line">        space_index = each_item + <span class="number">1</span></span><br><span class="line">        <span class="comment"># backend 行 下标</span></span><br><span class="line">        backend_index = each_item + <span class="number">2</span></span><br><span class="line">        <span class="comment"># server 行 下标</span></span><br><span class="line">        server_index = each_item + <span class="number">3</span></span><br><span class="line">        <span class="comment"># 空行下标</span></span><br><span class="line">        last_space = each_item + <span class="number">4</span></span><br><span class="line">        <span class="comment"># 插入的backend 行 字符串</span></span><br><span class="line">        backend_str = <span class="string">'&#123;&#125; &#123;&#125;\n'</span>.format(<span class="string">'backend'</span>, add_dic[<span class="string">'backend'</span>].strip())</span><br><span class="line">        <span class="comment"># 插入</span></span><br><span class="line">        all_cfg_list.insert(space_index, <span class="string">'\n'</span>)</span><br><span class="line">        all_cfg_list.insert(backend_index, backend_str)</span><br><span class="line">        all_cfg_list.insert(server_index, server_str)</span><br><span class="line">        all_cfg_list.insert(last_space, <span class="string">'\n'</span>)</span><br><span class="line">    <span class="comment"># 写入文件</span></span><br><span class="line">    write_to_cfg(all_cfg_list)</span><br><span class="line">    select_by_domain(uc, res_num=add_flag, domain=add_dic[<span class="string">'backend'</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">del_by_data</span><span class="params">(uc)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    删除整个backend, 需要用户输入域名;</span></span><br><span class="line"><span class="string">    删除单个server, 需要用户输入json</span></span><br><span class="line"><span class="string">    :param uc: 用户输入</span></span><br><span class="line"><span class="string">    :return: 无返回</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 同add函数，传给 select 的打印标志</span></span><br><span class="line">    <span class="comment"># 9 成功， 清空整个backend</span></span><br><span class="line">    <span class="comment"># 8 成功， 删除一个backend下的一个server</span></span><br><span class="line">    del_flag = <span class="string">''</span></span><br><span class="line">    all_cfg_list = get_cfg_content()</span><br><span class="line">    bs_dic = get_backend_server_dict(all_cfg_list)</span><br><span class="line">    user_data = get_user_input(uc, prompt_dic[uc])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 判断用户输入的是域名还是json串</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(user_data, dict):</span><br><span class="line">        print(<span class="string">'您选择了JSON串删除'</span>)</span><br><span class="line">        user_data = dict(user_data)</span><br><span class="line">        <span class="keyword">for</span> each_backend <span class="keyword">in</span> bs_dic:</span><br><span class="line">            <span class="comment"># 要删除的backend是否存在</span></span><br><span class="line">            <span class="keyword">if</span> user_data[<span class="string">'backend'</span>] <span class="keyword">in</span> all_cfg_list[each_backend]:</span><br><span class="line">                <span class="comment"># 存在此backend的server记录, 则再次确认要删除的IP是否存在bs_dic对应的list中</span></span><br><span class="line">                <span class="keyword">for</span> each_server <span class="keyword">in</span> bs_dic[each_backend]:</span><br><span class="line">                    <span class="keyword">if</span> user_data[<span class="string">'record'</span>][<span class="string">'server'</span>] <span class="keyword">in</span> each_server:</span><br><span class="line">                        <span class="comment"># 判断此backend下是否只有一个server记录,如果只有1个,则连同backend也删除; 否则,只删除server</span></span><br><span class="line">                        <span class="keyword">if</span> len(bs_dic[each_backend]) &gt; <span class="number">1</span>:</span><br><span class="line">                            <span class="comment"># 只删除server记录</span></span><br><span class="line">                            all_cfg_list.remove(each_server)</span><br><span class="line">                            del_flag = <span class="string">'8'</span></span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            <span class="comment"># 删除backend和server</span></span><br><span class="line">                            all_cfg_list.remove(all_cfg_list[each_backend])</span><br><span class="line">                            all_cfg_list.remove(each_server)</span><br><span class="line">                            del_flag = <span class="string">'9'</span></span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    print(<span class="string">'删除失败, backend下无server为&#123;&#125;的记录'</span>.format(user_data[<span class="string">'record'</span>][<span class="string">'server'</span>]))</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">'删除失败, 没有域名为 &#123;&#125; 的backend记录'</span>.format(user_data[<span class="string">'backend'</span>]))</span><br><span class="line">        <span class="comment"># 写入文件</span></span><br><span class="line">        write_to_cfg(all_cfg_list)</span><br><span class="line">        select_by_domain(uc, res_num=del_flag, domain=user_data[<span class="string">'backend'</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'您选择了通过域名删除'</span>)</span><br><span class="line">        user_data = str(user_data)</span><br><span class="line">        <span class="keyword">for</span> each_backend <span class="keyword">in</span> bs_dic:</span><br><span class="line">            <span class="comment"># 要删除的backend是否存在</span></span><br><span class="line">            <span class="keyword">if</span> user_data <span class="keyword">in</span> all_cfg_list[each_backend]:</span><br><span class="line">                print(<span class="string">'存在backend,'</span>, user_data)</span><br><span class="line">                <span class="comment"># 存在则删除下面所有的记录</span></span><br><span class="line">                <span class="comment"># 获得此backend下的server个数，以及server下标， 删除注意，从最大的下标开始删除；不会影响前面的下标。</span></span><br><span class="line">                <span class="comment"># 循环pop</span></span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(each_backend + len(bs_dic[each_backend]), each_backend - <span class="number">1</span>, <span class="number">-1</span>):</span><br><span class="line">                    all_cfg_list.pop(i)</span><br><span class="line">                del_flag = <span class="string">'9'</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">'删除失败, 没有域名为 &#123;&#125; 的backend记录'</span>.format(user_data))</span><br><span class="line">        <span class="comment"># 写入文件</span></span><br><span class="line">        write_to_cfg(all_cfg_list)</span><br><span class="line">        select_by_domain(uc, res_num=del_flag, domain=user_data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 行为字典，主功能函数</span></span><br><span class="line">    behavior_dic = &#123;</span><br><span class="line">        <span class="string">'1'</span>: select_by_domain,</span><br><span class="line">        <span class="string">'2'</span>: add_by_data,</span><br><span class="line">        <span class="string">'3'</span>: del_by_data,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 提示字典，get_user_input 调用</span></span><br><span class="line">    prompt_dic = &#123;</span><br><span class="line">        <span class="string">'1'</span>: <span class="string">'请输入要查询的域名 &gt;&gt;&gt; '</span>,</span><br><span class="line">        <span class="string">'2'</span>: <span class="string">'请输入要添加的数据 &gt;&gt;&gt; '</span>,</span><br><span class="line">        <span class="string">'3'</span>: <span class="string">'请输入要删除的数据 &gt;&gt;&gt; '</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 执行功能函数前的判断，get_user_input 调用</span></span><br><span class="line">    choice_dic = &#123;</span><br><span class="line">        <span class="string">'1'</span>: select_pre,</span><br><span class="line">        <span class="string">'2'</span>: add_pre,</span><br><span class="line">        <span class="string">'3'</span>: del_pre,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># print dic</span></span><br><span class="line">    pt_dic = &#123;</span><br><span class="line">        <span class="string">'1'</span>: <span class="string">'查询'</span>,</span><br><span class="line">        <span class="string">'2'</span>: <span class="string">'添加'</span>,</span><br><span class="line">        <span class="string">'3'</span>: <span class="string">'删除'</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 判断结果</span></span><br><span class="line">    rt_dic = &#123;</span><br><span class="line">        <span class="string">'501'</span>: <span class="string">'缺少backend关键字'</span>,</span><br><span class="line">        <span class="string">'502'</span>: <span class="string">'缺少record关键字'</span>,</span><br><span class="line">        <span class="string">'503'</span>: <span class="string">'backend对应一个字符串'</span>,</span><br><span class="line">        <span class="string">'504'</span>: <span class="string">'backend的值中间应至少包含两个(.)'</span>,</span><br><span class="line">        <span class="string">'505'</span>: <span class="string">'backend的值输入不合法'</span>,</span><br><span class="line">        <span class="string">'506'</span>: <span class="string">'record对应一个字典'</span>,</span><br><span class="line">        <span class="string">'507'</span>: <span class="string">'缺少server关键字'</span>,</span><br><span class="line">        <span class="string">'508'</span>: <span class="string">'缺少weight关键字'</span>,</span><br><span class="line">        <span class="string">'509'</span>: <span class="string">'缺少maxconn关键字'</span>,</span><br><span class="line">        <span class="string">'510'</span>: <span class="string">'server对应一个字符串'</span>,</span><br><span class="line">        <span class="string">'511'</span>: <span class="string">'weight对应一个整数'</span>,</span><br><span class="line">        <span class="string">'512'</span>: <span class="string">'maxconn对应一个整数'</span>,</span><br><span class="line">        <span class="string">'513'</span>: <span class="string">'server的值是一个IP'</span>,</span><br><span class="line">        <span class="string">'514'</span>: <span class="string">'域名不能以(.)开头或结尾'</span>,</span><br><span class="line">        <span class="string">'599'</span>: <span class="string">'参数无效，请重新输入'</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># main</span></span><br><span class="line">    flag = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">    cfg_file = <span class="string">'conf/haproxy.conf'</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">'''</span></span><br><span class="line"><span class="string">欢迎使用修改 HaProxy 配置文件脚本</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">脚本包含以下功能:</span></span><br><span class="line"><span class="string">    1. 查询 --通过域名查询   </span></span><br><span class="line"><span class="string">    2. 增加 --通过json字符串增加</span></span><br><span class="line"><span class="string">    3. 删除 --通过域名删除整个域名配置，或者通过json字符串删除域名下的某一配置</span></span><br><span class="line"><span class="string">    4. 退出</span></span><br><span class="line"><span class="string">'''</span>)</span><br><span class="line">    <span class="keyword">while</span> flag:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            user_choice = input(<span class="string">'请输入功能编号 &gt;&gt; '</span>).strip()</span><br><span class="line">        <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">            flag = <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">if</span> user_choice == <span class="string">'4'</span>:</span><br><span class="line">            print(<span class="string">'已退出!'</span>)</span><br><span class="line">            flag = <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> user_choice == <span class="string">''</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> user_choice <span class="keyword">not</span> <span class="keyword">in</span> behavior_dic:</span><br><span class="line">            print(<span class="string">'输入无效,请输入功能编号!'</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        behavior_dic[user_choice](user_choice)</span><br></pre></td></tr></table></figure>
+<h2 id="haproxy-conf"><a href="#haproxy-conf" class="headerlink" title="haproxy.conf"></a>haproxy.conf</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">global</span><br><span class="line">log 127.0.0.1 local2</span><br><span class="line">daemon</span><br><span class="line">maxconn 256</span><br><span class="line">log 127.0.0.1 local2 info</span><br><span class="line">defaults</span><br><span class="line">log global</span><br><span class="line">mode http</span><br><span class="line">timeout connect 5000ms</span><br><span class="line">timeout client 50000ms</span><br><span class="line">timeout server 50000ms</span><br><span class="line">option  dontlognull</span><br><span class="line"></span><br><span class="line">listen stats :8888</span><br><span class="line">stats enable</span><br><span class="line">stats uri       /admin</span><br><span class="line">stats auth      admin:1234</span><br><span class="line"></span><br><span class="line">frontend oldboy.org</span><br><span class="line">bind 0.0.0.0:80</span><br><span class="line">option httplog</span><br><span class="line">option httpclose</span><br><span class="line">option  forwardfor</span><br><span class="line">log global</span><br><span class="line">acl www hdr_reg(host) -i www.oldboy.org</span><br><span class="line">use_backend www.oldboy.org if www</span><br><span class="line"></span><br><span class="line">backend www.oldboy.org</span><br><span class="line">    server 100.1.7.8 100.1.7.8 weight 20 maxconn 3000</span><br><span class="line">    server 100.1.7.9 100.1.7.9 weight 20 maxconn 3000</span><br><span class="line"></span><br><span class="line">backend www.etiantian.org</span><br><span class="line">    server 100.1.7.10 100.1.7.10 weight 20 maxconn 3000</span><br><span class="line"></span><br><span class="line">backend www.oldboyedu.org</span><br><span class="line">    server 100.1.7.11 100.1.7.11 weight 20 maxconn 3000</span><br><span class="line"></span><br><span class="line"># 测试添加，不考虑haproxy的语法是否正确</span><br><span class="line">frontend oldboy.org</span><br><span class="line">bind 0.0.0.0:80</span><br><span class="line">option httplog</span><br><span class="line">option httpclose</span><br><span class="line">option  forwardfor</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/23/iter_and_generator/" rel="next" title="Python3 初识迭代，迭代器，生成器">
+                <i class="fa fa-chevron-left"></i> Python3 初识迭代，迭代器，生成器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/30/Python3-simple_calc/" rel="prev" title="Python3 简单计算器">
+                Python3 简单计算器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/foys.jpg"
+                alt="Alibner" />
+            
+              <p class="site-author-name" itemprop="name">Alibner</p>
+              <p class="site-description motion-element" itemprop="description">人生苦短，必须性感。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/alibner" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lispgyy@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/lspgyy" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.osyunwei.com/" title="OSYUNWEI" target="_blank">OSYUNWEI</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.nginx.cn/" title="系统运维架构" target="_blank">系统运维架构</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://linux.cn/tech/sa/" title="开源中文社区" target="_blank">开源中文社区</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮老师的博客" target="_blank">阮老师的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">1.</span> <span class="nav-text">查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加或更新"><span class="nav-number">2.</span> <span class="nav-text">添加或更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除"><span class="nav-number">3.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整代码"><span class="nav-number">4.</span> <span class="nav-text">完整代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#haproxy-conf"><span class="nav-number">5.</span> <span class="nav-text">haproxy.conf</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alibner</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.github.com">GitHub Pages</a></div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: '0hwIbQ9AtobtT9qUKhSRyDDT-gzGzoHsz',
+        appKey: 'oqObERdjBMtqGyI54Qtm9WmD',
+        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+        avatar:'wavatar',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

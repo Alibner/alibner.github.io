@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="clear|  clear(...) |      D.clear() -&amp;gt; None.  Remove all items from D.  作用: 清空原字典，返回None  In [3]: dic1 = {&amp;apos;k1&amp;apos;:&amp;apos;v1&amp;apos;,&amp;apos;name&amp;apos;:&amp;apos;Lisp&amp;apos;}  In [4]: dic1 Out[4]: {&amp;ap">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3 字典方法总结">
+<meta property="og:url" content="http://alibner.me/2017/05/11/dict_sum/index.html">
+<meta property="og:site_name" content="Alibner&#39; Blog">
+<meta property="og:description" content="clear|  clear(...) |      D.clear() -&amp;gt; None.  Remove all items from D.  作用: 清空原字典，返回None  In [3]: dic1 = {&amp;apos;k1&amp;apos;:&amp;apos;v1&amp;apos;,&amp;apos;name&amp;apos;:&amp;apos;Lisp&amp;apos;}  In [4]: dic1 Out[4]: {&amp;ap">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-26T13:45:09.868Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python3 字典方法总结">
+<meta name="twitter:description" content="clear|  clear(...) |      D.clear() -&amp;gt; None.  Remove all items from D.  作用: 清空原字典，返回None  In [3]: dic1 = {&amp;apos;k1&amp;apos;:&amp;apos;v1&amp;apos;,&amp;apos;name&amp;apos;:&amp;apos;Lisp&amp;apos;}  In [4]: dic1 Out[4]: {&amp;ap">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://alibner.me/2017/05/11/dict_sum/"/>
+
+
+
+
+
+  <title>Python3 字典方法总结 | Alibner' Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alibner' Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Focus on and do it best.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alibner.me/2017/05/11/dict_sum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alibner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/foys.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alibner' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python3 字典方法总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-11T13:27:34+00:00">
+                2017-05-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/11/dict_sum/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/05/11/dict_sum/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/05/11/dict_sum/" class="leancloud_visitors" data-flag-title="Python3 字典方法总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="clear"><a href="#clear" class="headerlink" title="clear"></a><code>clear</code></h2><pre><code>|  clear(...)
+|      D.clear() -&gt; None.  Remove all items from D.
+</code></pre><blockquote>
+<p>作用: 清空原字典，返回None</p>
+</blockquote>
+<pre><code>In [3]: dic1 = {&apos;k1&apos;:&apos;v1&apos;,&apos;name&apos;:&apos;Lisp&apos;}
+
+In [4]: dic1
+Out[4]: {&apos;k1&apos;: &apos;v1&apos;, &apos;name&apos;: &apos;Lisp&apos;}
+
+In [5]: dic1.clear()
+
+In [6]: dic1
+Out[6]: {}
+</code></pre><a id="more"></a>
+<h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a><code>copy</code></h2><pre><code>|  copy(...)
+|      D.copy() -&gt; a shallow copy of D
+</code></pre><blockquote>
+<p>作用: 字典的浅拷贝，返回一个新字典</p>
+</blockquote>
+<pre><code>In [7]: dic1 = {&apos;k1&apos;:&apos;v1&apos;,&apos;name&apos;:&apos;Lisp&apos;}
+
+In [8]: dic1
+Out[8]: {&apos;k1&apos;: &apos;v1&apos;, &apos;name&apos;: &apos;Lisp&apos;}
+
+In [9]: dic1.copy()
+Out[9]: {&apos;k1&apos;: &apos;v1&apos;, &apos;name&apos;: &apos;Lisp&apos;}
+</code></pre><h2 id="fromkeys"><a href="#fromkeys" class="headerlink" title="fromkeys"></a><code>fromkeys</code></h2><pre><code>|  fromkeys(iterable, value=None, /) from builtins.type
+|      Returns a new dict with keys from iterable and values equal to value.
+</code></pre><blockquote>
+<p>作用:  dict的静态方法，返回一个字典。原字典不变</p>
+</blockquote>
+<pre><code>In [10]: dic2 = dict.fromkeys((&apos;1&apos;,&apos;1&apos;,&apos;23&apos;))
+
+In [11]: dic2
+Out[11]: {&apos;1&apos;: None, &apos;23&apos;: None}
+
+In [12]: dic2 = dict.fromkeys(&apos;12344444&apos;)
+
+In [13]: dic2
+Out[13]: {&apos;1&apos;: None, &apos;2&apos;: None, &apos;3&apos;: None, &apos;4&apos;: None}
+
+In [14]: dic2 = dict.fromkeys(&apos;12344444&apos;, 3)
+
+In [15]: dic2
+Out[15]: {&apos;1&apos;: 3, &apos;2&apos;: 3, &apos;3&apos;: 3, &apos;4&apos;: 3}
+</code></pre><h2 id="get"><a href="#get" class="headerlink" title="get"></a><code>get</code></h2><pre><code>|  get(...)
+|      D.get(k[,d]) -&gt; D[k] if k in D, else d.  d defaults to None.
+</code></pre><blockquote>
+<p>作用: 如果键位于字典中，则返回键的值，否则返回默认值。 如果没有给出默认值，它将默认为None，因此此方法不会引发KeyError</p>
+</blockquote>
+<pre><code>In [17]: dic2
+Out[17]: {&apos;1&apos;: 3, &apos;2&apos;: 3, &apos;3&apos;: 3, &apos;4&apos;: 3}
+
+In [18]: dic2.get(&apos;2&apos;)
+Out[18]: 3
+
+In [19]: dic2.get(&apos;2&apos;, 222)
+Out[19]: 3
+
+In [20]: dic2.get(&apos;5&apos;)
+
+In [21]: dic2.get(&apos;5&apos;, 123)
+Out[21]: 123
+</code></pre><h2 id="items"><a href="#items" class="headerlink" title="items"></a><code>items</code></h2><pre><code>|  items(...)
+|      D.items() -&gt; a set-like object providing a view on D&apos;s items
+</code></pre><blockquote>
+<p>作用: 返回一个dict_item，里面是键值二元组组成的列表</p>
+</blockquote>
+<pre><code>In [30]: dic2
+Out[30]: {&apos;1&apos;: 3, &apos;2&apos;: 3, &apos;3&apos;: 3, &apos;4&apos;: 3}
+
+In [31]: for item in dic2.items():
+    ...:     print(item)
+    ...:     
+(&apos;3&apos;, 3)
+(&apos;2&apos;, 3)
+(&apos;1&apos;, 3)
+(&apos;4&apos;, 3)
+
+In [32]: for k,v in dic2.items():
+    ...:     print(k,v)
+    ...:     
+3 3
+2 3
+1 3
+4 3
+</code></pre><h2 id="keys"><a href="#keys" class="headerlink" title="keys"></a><code>keys</code></h2><pre><code>|  keys(...)
+|      D.keys() -&gt; a set-like object providing a view on D&apos;s keys
+</code></pre><blockquote>
+<p>作用: 返回一个dict_keys，里面是键组成的列表</p>
+</blockquote>
+<pre><code>In [34]: dic2
+Out[34]: {&apos;1&apos;: 3, &apos;2&apos;: 3, &apos;3&apos;: 3, &apos;4&apos;: 3}
+
+In [35]: dic2.keys()
+Out[35]: dict_keys([&apos;3&apos;, &apos;2&apos;, &apos;1&apos;, &apos;4&apos;])
+</code></pre><h2 id="pop"><a href="#pop" class="headerlink" title="pop"></a><code>pop</code></h2><pre><code>|  pop(...)
+|      D.pop(k[,d]) -&gt; v, remove specified key and return the corresponding value.
+|      If key is not found, d is returned if given, otherwise KeyError is raised
+</code></pre><blockquote>
+<p>作用: 如果键在字典中，则将其删除并返回其值，否则返回默认值。 如果没有给出默认值，并且键不在字典中，则会引发KeyError。</p>
+</blockquote>
+<pre><code>In [36]: dic2
+In [36]: dic2
+Out[36]: {&apos;1&apos;: 3, &apos;2&apos;: 3, &apos;3&apos;: 3, &apos;4&apos;: 3}
+
+In [37]: dic2.pop(&apos;1&apos;)
+Out[37]: 3
+
+In [39]: dic2
+Out[39]: {&apos;2&apos;: 3, &apos;3&apos;: 3, &apos;4&apos;: 3}
+
+In [40]: dic2.pop(&apos;123&apos;,&apos;Null&apos;)
+Out[40]: &apos;Null&apos;
+
+In [41]: dic2.pop(&apos;123&apos;)
+---------------------------------------------------------------------------
+KeyError                                  Traceback (most recent call last)
+&lt;ipython-input-41-74fa2f771472&gt; in &lt;module&gt;()
+----&gt; 1 dic2.pop(&apos;123&apos;)
+
+KeyError: &apos;123&apos;
+</code></pre><h2 id="popitem"><a href="#popitem" class="headerlink" title="popitem"></a><code>popitem</code></h2><pre><code>|  popitem(...)
+|      D.popitem() -&gt; (k, v), remove and return some (key, value) pair as a
+|      2-tuple; but raise KeyError if D is empty.
+</code></pre><blockquote>
+<p>作用: 从字典中删除并返回一个任意的（键值）对。二元组；随机删除，因为字典是无序的。</p>
+</blockquote>
+<pre><code>In [72]: dic2
+Out[72]: {&apos;1&apos;: 2, &apos;123&apos;: 245, &apos;2&apos;: 3, &apos;4&apos;: 3}
+
+In [73]: dic2.popitem()
+Out[73]: (&apos;123&apos;, 245)
+
+In [74]: dic2
+Out[74]: {&apos;1&apos;: 2, &apos;2&apos;: 3, &apos;4&apos;: 3}
+
+In [75]: dic2.popitem()
+Out[75]: (&apos;2&apos;, 3)
+
+In [76]: dic2
+Out[76]: {&apos;1&apos;: 2, &apos;4&apos;: 3}
+</code></pre><h2 id="setdefault"><a href="#setdefault" class="headerlink" title="setdefault"></a><code>setdefault</code></h2><pre><code>|  setdefault(...)
+|      D.setdefault(k[,d]) -&gt; D.get(k,d), also set D[k]=d if k not in D
+</code></pre><blockquote>
+<p>作用: 如果键在字典中，则返回其值。 如果没有，请插入具有默认值的键，并返回默认值。 默认默认为无。</p>
+</blockquote>
+<pre><code>In [77]: dic2
+Out[77]: {&apos;1&apos;: 2, &apos;4&apos;: 3}
+
+In [78]: dic2.setdefault(&apos;1&apos;)
+Out[78]: 2
+
+In [79]: dic2.setdefault(&apos;1&apos;,&apos;12&apos;)
+Out[79]: 2
+
+In [80]: dic2
+Out[80]: {&apos;1&apos;: 2, &apos;4&apos;: 3}
+
+In [81]: dic2.setdefault(&apos;11&apos;)
+
+In [82]: dic2
+Out[82]: {&apos;1&apos;: 2, &apos;11&apos;: None, &apos;4&apos;: 3}
+
+In [83]: dic2.setdefault(&apos;112&apos;,&apos;ABC&apos;)
+Out[83]: &apos;ABC&apos;
+
+In [84]: dic2
+Out[84]: {&apos;1&apos;: 2, &apos;11&apos;: None, &apos;112&apos;: &apos;ABC&apos;, &apos;4&apos;: 3}
+</code></pre><h2 id="update"><a href="#update" class="headerlink" title="update"></a><code>update</code></h2><pre><code>|  update(...)
+|      D.update([E, ]**F) -&gt; None.  Update D from dict/iterable E and F.
+|      If E is present and has a .keys() method, then does:  for k in E: D[k] = E[k]
+|      If E is present and lacks a .keys() method, then does:  for k, v in E: D[k] = v
+|      In either case, this is followed by: for k in F:  D[k] = F[k]
+</code></pre><blockquote>
+<p>作用: 用其他键/值对更新字典，覆盖现有键。 返回无。直接更新原字典</p>
+</blockquote>
+<pre><code>In [85]: dic2
+Out[85]: {&apos;1&apos;: 2, &apos;11&apos;: None, &apos;112&apos;: &apos;ABC&apos;, &apos;4&apos;: 3}
+
+In [86]: dic1
+Out[86]: {&apos;k1&apos;: &apos;v1&apos;, &apos;name&apos;: &apos;Lisp&apos;}
+
+In [87]: dic2.update(dic1)
+
+In [88]: dic2
+Out[88]: {&apos;1&apos;: 2, &apos;11&apos;: None, &apos;112&apos;: &apos;ABC&apos;, &apos;4&apos;: 3, &apos;k1&apos;: &apos;v1&apos;, &apos;name&apos;: &apos;Lisp&apos;}
+
+In [89]: dic1[&apos;k1&apos;]=&apos;Love&apos;
+
+In [90]: dic1
+Out[90]: {&apos;k1&apos;: &apos;Love&apos;, &apos;name&apos;: &apos;Lisp&apos;}
+
+In [91]: dic2.update(dic1)
+
+In [92]: dic2
+Out[92]: {&apos;1&apos;: 2, &apos;11&apos;: None, &apos;112&apos;: &apos;ABC&apos;, &apos;4&apos;: 3, &apos;k1&apos;: &apos;Love&apos;, &apos;name&apos;: &apos;Lisp&apos;}
+</code></pre><h2 id="values"><a href="#values" class="headerlink" title="values"></a><code>values</code></h2><pre><code>|  values(...)
+|      D.values() -&gt; an object providing a view on D&apos;s values
+</code></pre><blockquote>
+<p>作用: 与keys类似，返回一个dict_values。包含了所有值的列表</p>
+</blockquote>
+<pre><code>In [93]: dic2
+Out[93]: {&apos;1&apos;: 2, &apos;11&apos;: None, &apos;112&apos;: &apos;ABC&apos;, &apos;4&apos;: 3, &apos;k1&apos;: &apos;Love&apos;, &apos;name&apos;: &apos;Lisp&apos;}
+
+In [94]: dic2.values()
+Out[94]: dict_values([&apos;Lisp&apos;, None, &apos;ABC&apos;, 2, 3, &apos;Love&apos;])
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/10/list_sum/" rel="next" title="Python3 列表方法总结">
+                <i class="fa fa-chevron-left"></i> Python3 列表方法总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/12/set_sum/" rel="prev" title="Python3 集合方法总结">
+                Python3 集合方法总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/foys.jpg"
+                alt="Alibner" />
+            
+              <p class="site-author-name" itemprop="name">Alibner</p>
+              <p class="site-description motion-element" itemprop="description">人生苦短，必须性感。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/alibner" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lispgyy@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/lspgyy" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.osyunwei.com/" title="OSYUNWEI" target="_blank">OSYUNWEI</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.nginx.cn/" title="系统运维架构" target="_blank">系统运维架构</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://linux.cn/tech/sa/" title="开源中文社区" target="_blank">开源中文社区</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮老师的博客" target="_blank">阮老师的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#clear"><span class="nav-number">1.</span> <span class="nav-text">clear</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#copy"><span class="nav-number">2.</span> <span class="nav-text">copy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fromkeys"><span class="nav-number">3.</span> <span class="nav-text">fromkeys</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get"><span class="nav-number">4.</span> <span class="nav-text">get</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#items"><span class="nav-number">5.</span> <span class="nav-text">items</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keys"><span class="nav-number">6.</span> <span class="nav-text">keys</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pop"><span class="nav-number">7.</span> <span class="nav-text">pop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#popitem"><span class="nav-number">8.</span> <span class="nav-text">popitem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setdefault"><span class="nav-number">9.</span> <span class="nav-text">setdefault</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#update"><span class="nav-number">10.</span> <span class="nav-text">update</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#values"><span class="nav-number">11.</span> <span class="nav-text">values</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alibner</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.github.com">GitHub Pages</a></div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: '0hwIbQ9AtobtT9qUKhSRyDDT-gzGzoHsz',
+        appKey: 'oqObERdjBMtqGyI54Qtm9WmD',
+        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+        avatar:'wavatar',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

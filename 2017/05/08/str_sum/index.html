@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="capitalize|  capitalize(...) |      S.capitalize() -&amp;gt; str # 返回一个字符串 |       |      Return a capitalized version of S, i.e. make the first character |      have upper case and the rest lower case. c">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3 字符串方法总结">
+<meta property="og:url" content="http://alibner.me/2017/05/08/str_sum/index.html">
+<meta property="og:site_name" content="Alibner&#39; Blog">
+<meta property="og:description" content="capitalize|  capitalize(...) |      S.capitalize() -&amp;gt; str # 返回一个字符串 |       |      Return a capitalized version of S, i.e. make the first character |      have upper case and the rest lower case. c">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-26T13:45:09.948Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python3 字符串方法总结">
+<meta name="twitter:description" content="capitalize|  capitalize(...) |      S.capitalize() -&amp;gt; str # 返回一个字符串 |       |      Return a capitalized version of S, i.e. make the first character |      have upper case and the rest lower case. c">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://alibner.me/2017/05/08/str_sum/"/>
+
+
+
+
+
+  <title>Python3 字符串方法总结 | Alibner' Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alibner' Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Focus on and do it best.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alibner.me/2017/05/08/str_sum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alibner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/foys.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alibner' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python3 字符串方法总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-08T10:07:34+00:00">
+                2017-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/08/str_sum/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/05/08/str_sum/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/05/08/str_sum/" class="leancloud_visitors" data-flag-title="Python3 字符串方法总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="capitalize"><a href="#capitalize" class="headerlink" title="capitalize"></a><code>capitalize</code></h2><pre><code>|  capitalize(...)
+|      S.capitalize() -&gt; str # 返回一个字符串
+|      
+|      Return a capitalized version of S, i.e. make the first character
+|      have upper case and the rest lower case.
+</code></pre><p><code>capitalized word</code>意思为<strong>字首大写的单词</strong>。</p>
+<blockquote>
+<p>作用: 将字符串的首字符大写，其他转为小写。</p>
+</blockquote>
+<pre><code>In [1]: str1 = &apos;lisp&apos;
+
+In [2]: str1.capitalize()
+Out[2]: &apos;Lisp&apos;
+
+In [3]: str1 = &apos;liSp&apos;
+
+In [4]: str1.capitalize()
+Out[4]: &apos;Lisp&apos;
+
+In [5]: str1 = &apos;1liSp&apos;
+
+In [6]: str1.capitalize()
+Out[6]: &apos;1lisp&apos;
+</code></pre><a id="more"></a>
+<h2 id="casefold"><a href="#casefold" class="headerlink" title="casefold"></a><code>casefold</code></h2><pre><code>|  casefold(...)
+|      S.casefold() -&gt; str # 返回一个字符串
+|      
+|      Return a version of S suitable for caseless comparisons.
+</code></pre><blockquote>
+<p>作用: 将字符串的全部变为小写。</p>
+</blockquote>
+<pre><code>In [35]: str1 = &apos;I\&apos;m Lisp. Life is short, I use Python!&apos;
+
+In [36]: str1.casefold()
+Out[36]: &quot;i&apos;m lisp. life is short, i use python!&quot;
+</code></pre><h2 id="center"><a href="#center" class="headerlink" title="center"></a><code>center</code></h2><pre><code>|  center(...)
+|      S.center(width[, fillchar]) -&gt; str # 返回一个字符串，中括号的参数表示填充字符可选，默认是一个空格
+|      
+|      Return S centered in a string of length width. Padding is
+|      done using the specified fill character (default is a space)
+</code></pre><blockquote>
+<p>作用: 将字符串居中显示，可选择填充的单字符。</p>
+</blockquote>
+<pre><code>In [1]: str1 = &apos;lisp&apos;
+
+In [2]: str1.center(10)
+Out[2]: &apos;   lisp   &apos;
+
+In [3]: str1.center(10,&apos;2&apos;)
+Out[3]: &apos;222lisp222&apos;
+
+In [4]: str1.center(10,&apos;Py&apos;)
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+&lt;ipython-input-4-d7c6560d7f7f&gt; in &lt;module&gt;()
+----&gt; 1 str1.center(10,&apos;Py&apos;)
+
+TypeError: The fill character must be exactly one character long
+</code></pre><h2 id="count"><a href="#count" class="headerlink" title="count"></a><code>count</code></h2><pre><code>|  count(...)
+|      S.count(sub[, start[, end]]) -&gt; int # 返回一个整数，中括号的参数表示可选，不选表示[0:)
+|                                          # start 表示起始寻址位置
+|                                          # end   表示终点寻址位置（不包含）
+|      
+|      Return the number of non-overlapping occurrences of substring sub in
+|      string S[start:end].  Optional arguments start and end are
+|      interpreted as in slice notation.
+</code></pre><blockquote>
+<p>作用: 计算子字符串在字符串中出现的个数，可以设置寻找的起始位置和终止位置。</p>
+</blockquote>
+<pre><code>In [28]: str1 = &apos;lishaopeng 666, he is a Pythoner, 666&apos;
+
+In [29]: str1.count(&apos;n&apos;)
+Out[29]: 2
+
+In [30]: str1.count(&apos;6&apos;)
+Out[30]: 6
+
+In [31]: str1.count(&apos;66&apos;)
+Out[31]: 2
+
+In [32]: str1.count(&apos;6&apos;,12)
+Out[32]: 5
+
+In [33]: str1.count(&apos;6&apos;,12,15)
+Out[33]: 2
+
+In [34]: str1.count(&apos;6&apos;,-3)
+Out[34]: 3
+
+In [35]: str1.count(&apos;6&apos;,-3,-1)
+Out[35]: 2
+
+In [36]: str1.count(&apos;9&apos;)
+Out[36]: 0
+</code></pre><h2 id="encode"><a href="#encode" class="headerlink" title="encode"></a><code>encode</code></h2><pre><code>|  encode(...)
+|      S.encode(encoding=&apos;utf-8&apos;, errors=&apos;strict&apos;) -&gt; bytes
+|      
+|      Encode S using the codec registered for encoding. Default encoding
+|      is &apos;utf-8&apos;. errors may be given to set a different error
+|      handling scheme. Default is &apos;strict&apos; meaning that encoding errors raise
+|      a UnicodeEncodeError. Other possible values are &apos;ignore&apos;, &apos;replace&apos; and
+|      &apos;xmlcharrefreplace&apos; as well as any other name registered with
+|      codecs.register_error that can handle UnicodeEncodeErrors.
+</code></pre><blockquote>
+<p>作用: 字符串转换，默认转成UTF-8</p>
+</blockquote>
+<pre><code>In [45]: str1 = &apos;人生苦短，我用Python&apos;
+
+In [46]: str1
+Out[46]: &apos;人生苦短，我用Python&apos;
+
+In [47]: str1.encode()
+Out[47]: b&apos;\xe4\xba\xba\xe7\x94\x9f\xe8\x8b\xa6\xe7\x9f\xad\xef\xbc\x8c\xe6\x88\x91\xe7\x94\xa8Python&apos;
+
+In [48]: str1.encode(encoding=&apos;utf-8&apos;)
+Out[48]: b&apos;\xe4\xba\xba\xe7\x94\x9f\xe8\x8b\xa6\xe7\x9f\xad\xef\xbc\x8c\xe6\x88\x91\xe7\x94\xa8Python&apos;
+
+In [49]: str1.encode(encoding=&apos;GBK&apos;)
+Out[49]: b&apos;\xc8\xcb\xc9\xfa\xbf\xe0\xb6\xcc\xa3\xac\xce\xd2\xd3\xc3Python&apos;
+
+In [50]: str1.encode(encoding=&apos;GBK&apos;).decode()
+---------------------------------------------------------------------------
+UnicodeDecodeError                        Traceback (most recent call last)
+&lt;ipython-input-50-1b0fa5bac7bf&gt; in &lt;module&gt;()
+----&gt; 1 str1.encode(encoding=&apos;GBK&apos;).decode()
+
+UnicodeDecodeError: &apos;utf-8&apos; codec can&apos;t decode byte 0xc8 in position 0: invalid continuation byte
+
+In [51]: str1.encode(encoding=&apos;GBK&apos;).decode(encoding=&apos;GBK&apos;)
+Out[51]: &apos;人生苦短，我用Python&apos;
+</code></pre><h2 id="endswith"><a href="#endswith" class="headerlink" title="endswith"></a><code>endswith</code></h2><pre><code>|  endswith(...)
+|      S.endswith(suffix[, start[, end]]) -&gt; bool # 返回布尔类型，中括号的参数表示可选，不选表示[0:)
+|                                          # start 表示起始寻址位置
+|                                          # end   表示终点寻址位置（不包含）
+|
+|      Return True if S ends with the specified suffix, False otherwise.
+|      With optional start, test S beginning at that position.
+|      With optional end, stop comparing S at that position.
+|      suffix can also be a tuple of strings to try.
+</code></pre><blockquote>
+<p>作用: 返回True或者False, 判断字符串是否以suffix结尾</p>
+</blockquote>
+<pre><code>In [7]: str1 = &apos;This is my bois&apos;
+
+In [8]: str1.endswith(&apos;bois&apos;)
+Out[8]: True
+
+In [9]: str1.endswith(&apos;is&apos;, 2, 3)
+Out[9]: False
+
+In [10]: str1.endswith(&apos;is&apos;, 2, 4)
+Out[10]: True
+
+In [11]: str1.endswith(&apos;is&apos;, 2, 6)
+Out[11]: False
+
+In [12]: str1.endswith(&apos;is&apos;, 2, 7)
+Out[12]: True
+</code></pre><h2 id="expandtabs"><a href="#expandtabs" class="headerlink" title="expandtabs"></a><code>expandtabs</code></h2><pre><code> |  expandtabs(...)
+ |      S.expandtabs(tabsize=8) -&gt; str # 返回字符串
+ |
+ |      Return a copy of S where all tab characters are expanded using spaces.
+ |      If tabsize is not given, a tab size of 8 characters is assumed.
+
+def expandtabs(string, n):
+    result = &quot;&quot;
+    pos = 0
+    for char in string:
+        if char == &quot;\t&quot;:
+            # instead of the tab character, append the
+            # number of spaces to the next tab stop
+            char = &quot; &quot; * (n - pos % n)
+        if char == &quot;\n&quot;:
+            pos = 0
+        else:
+            pos += len(char)
+        result += char
+    return result 
+</code></pre><blockquote>
+<p>作用: 将字符串中的制表符替换为等宽长度的空格,默认8个空格;可以指定.</p>
+</blockquote>
+<pre><code>In [21]: str1 = &apos;Life\tis\tshort\t\tI\tuse\tPython&apos;
+
+In [22]: str1.expandtabs()
+Out[22]: &apos;Life    is      short           I       use     Python&apos;
+
+In [23]: str1 = &apos;AppName\tAppPort\tAppPid\nSMFWebApp\t8081\t19201\nSMFTrade\t8082\t12758\nSMFServices\t8083\t16731&apos;
+
+In [24]: print(str1.expandtabs(16))
+AppName         AppPort         AppPid
+SMFWebApp       8081            19201
+SMFTrade        8082            12758
+SMFServices     8083            16731
+
+默认tabsize=8
+\t前，不足8位，\t补8-len(char)个空格；
+\t前，刚好8位，\t补8个空格；
+\t前，超过8位，\t补8-len(char)%8个空格
+
+In [35]: str1 = &apos;abc\td\tef\thijk\tlmnop\t&apos;
+
+In [36]: str1.expandtabs(4)
+Out[36]: &apos;abc d   ef  hijk    lmnop   &apos;
+
+In [37]: str1.expandtabs(4).replace(&apos; &apos;, &apos;*&apos;)
+Out[37]: &apos;abc*d***ef**hijk****lmnop***&apos;
+</code></pre><h2 id="find"><a href="#find" class="headerlink" title="find"></a><code>find</code></h2><pre><code>|  find(...)
+|      S.find(sub[, start[, end]]) -&gt; int  # 返回整型
+|                                          # start 表示起始寻址位置
+|                                          # end   表示终点寻址位置（不包含）
+|
+|      Return the lowest index in S where substring sub is found,
+|      such that sub is contained within S[start:end].  Optional
+|      arguments start and end are interpreted as in slice notation.
+|
+|      Return -1 on failure.
+</code></pre><blockquote>
+<p>作用: 查找字符串中是否包含子字符串;如果包含子字符串返回开始的索引值，否则返回-1。</p>
+</blockquote>
+<pre><code>In [8]: str1 = &apos;abcdeabcdeabc&apos;
+
+In [9]: str1.find(&apos;ab&apos;)
+Out[9]: 0
+
+In [10]: str1.find(&apos;bcde&apos;)
+Out[10]: 1
+
+In [11]: str1.find(&apos;bc&apos;,4)
+Out[11]: 6
+
+In [12]: str1.find(&apos;bc&apos;,4,5)
+Out[12]: -1
+</code></pre><h2 id="format"><a href="#format" class="headerlink" title="format"></a><code>format</code></h2><pre><code>|  format(...)
+|      S.format(*args, **kwargs) -&gt; str # 返回字符串
+|
+|      Return a formatted version of S, using substitutions from args and kwargs.
+|      The substitutions are identified by braces (&apos;{&apos; and &apos;}&apos;).
+</code></pre><blockquote>
+<p>作用: 格式化字符串,可以指定位置,指定参数.可以传元祖,列表,也可以传字典.</p>
+</blockquote>
+<pre><code>In [18]: str1 = &apos;{}在老男孩教育学{}&apos;.format(&apos;李少鹏&apos;, &apos;Python&apos;)
+
+In [19]: str1
+Out[19]: &apos;李少鹏在老男孩教育学Python&apos;
+
+In [20]: str1 = &apos;{0}在老男孩教育学{1}&apos;.format(&apos;Lisp&apos;, &apos;Python&apos;)
+
+In [21]: str1
+Out[21]: &apos;Lisp在老男孩教育学Python&apos;
+
+In [22]: str1 = &apos;{1}在老男孩教育学{0}&apos;.format(&apos;Python&apos;, &apos;Lisp&apos;)
+
+In [23]: str1
+Out[23]: &apos;Lisp在老男孩教育学Python&apos;
+
+In [24]: user_tuple = (&apos;李少鹏&apos;, &apos;Python&apos;)
+
+In [25]: str1 = &apos;{}在老男孩教育学{}&apos;.format(*user_tuple)
+
+In [26]: str1
+Out[26]: &apos;李少鹏在老男孩教育学Python&apos;
+
+In [27]: user_dict = {&apos;name&apos;:&apos;李少鹏&apos;,&apos;study&apos;:&apos;Python&apos;}
+
+In [28]: str1 = &apos;{name}在老男孩教育学{study}&apos;.format(**user_dict)
+
+In [29]: str1
+Out[29]: &apos;李少鹏在老男孩教育学Python&apos;
+</code></pre><h2 id="format-map"><a href="#format-map" class="headerlink" title="format_map"></a><code>format_map</code></h2><pre><code>|  format_map(...)
+|      S.format_map(mapping) -&gt; str # 返回字符串
+|
+|      Return a formatted version of S, using substitutions from mapping.
+|      The substitutions are identified by braces (&apos;{&apos; and &apos;}&apos;).
+</code></pre><blockquote>
+<p>作用: 与format(**mapping)类似, 但区别是,在调用dict的时候,format会去copy一份dict,产生一个新的dict;而format_map是直接引用<br>       format_map允许您使用具有特殊行为的dict子类（或实现映射的其他对象）<br>       例如正常处理缺少的键,当这些项目被复制到一个新的字典时，这种特殊行为将会丢失。</p>
+</blockquote>
+<blockquote>
+<p>可参考: <code>https://docs.python.org/3/library/stdtypes.html#str.format_map</code></p>
+</blockquote>
+<pre><code>In [36]: str1 = {&apos;appname&apos;: &apos;SMFWebApp&apos;, &apos;appport&apos;: &apos;8080&apos;, &apos;apppid&apos;: &apos;12021&apos;}
+
+In [37]: user_dict = {&apos;appname&apos;: &apos;SMFWebApp&apos;, &apos;appport&apos;: &apos;8080&apos;, &apos;apppid&apos;: &apos;12021&apos;}
+
+In [38]: str1 = &apos;应用 {appname} 的启动端口是 {appport} 进程ID是 {apppid}&apos;.format(**user_dict)
+
+In [39]: str1
+Out[39]: &apos;应用 SMFWebApp 的启动端口是 8080 进程ID是 12021&apos;
+
+In [40]: str1 = &apos;应用 {appname} 的启动端口是 {appport} 进程ID是 {apppid}&apos;.format_map(user_dict)
+
+In [41]: str1
+Out[41]: &apos;应用 SMFWebApp 的启动端口是 8080 进程ID是 12021&apos;
+</code></pre><h2 id="index"><a href="#index" class="headerlink" title="index"></a><code>index</code></h2><pre><code>|  index(...)
+|      S.index(sub[, start[, end]]) -&gt; int # 返回整型
+|
+|      Like S.find() but raise ValueError when the substring is not found.
+|
+</code></pre><blockquote>
+<p>作用: 与find类似,区别在于在字符串中找不到子字符串,则会报异常.</p>
+</blockquote>
+<pre><code>In [1]: str1 = &apos;Life is short , I use Python!&apos;
+
+In [3]: str1.index(&apos;i&apos;)
+Out[3]: 1
+
+In [4]: str1.index(&apos;sh&apos;)
+Out[4]: 8
+
+In [5]: str1.index(&apos;so&apos;)
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+&lt;ipython-input-5-29790a975559&gt; in &lt;module&gt;()
+----&gt; 1 str1.index(&apos;so&apos;)
+
+ValueError: substring not found
+</code></pre><h2 id="isalnum"><a href="#isalnum" class="headerlink" title="isalnum"></a><code>isalnum</code></h2><pre><code>|  isalnum(...)
+|      S.isalnum() -&gt; bool # 返回布尔类型
+|
+|      Return True if all characters in S are alphanumeric[字母数字的]
+|      and there is at least one character in S, False otherwise.
+</code></pre><blockquote>
+<p>作用: 判断所有字符串是否只是由字符和数字组成(<code>Python3汉字True,Python2汉字False</code>)</p>
+</blockquote>
+<pre><code>In [4]: str1 = &apos;我是Lisp666&apos;
+
+In [5]: str1.isalnum()
+Out[5]: True
+
+In [6]: str1 = &apos;我是Lisp,666&apos;
+
+In [7]: str1.isalnum()
+Out[7]: False
+</code></pre><h2 id="isalpha"><a href="#isalpha" class="headerlink" title="isalpha"></a><code>isalpha</code></h2><pre><code>|  isalpha(...)
+|      S.isalpha() -&gt; bool # 返回布尔类型
+|
+|      Return True if all characters in S are alphabetic[字母的]
+|      and there is at least one character in S, False otherwise.
+</code></pre><blockquote>
+<p>作用: 检测字符串是否只由字母组成<code>[A-Za-z]</code></p>
+</blockquote>
+<pre><code>In [8]: str1 = &apos;ssss12Z&apos;
+
+In [9]: str1.isalpha()
+Out[9]: False
+
+In [10]: str1 = &apos;sssszzwweW&apos;
+
+In [11]: str1.isalpha()
+Out[11]: True
+</code></pre><h2 id="isdecimal-123"><a href="#isdecimal-123" class="headerlink" title="isdecimal 123"></a><code>isdecimal</code> <code>123</code></h2><pre><code>|  isdecimal(...)
+|      S.isdecimal() -&gt; bool # 返回布尔类型
+|
+|      Return True if there are only decimal characters in S,
+|      False otherwise.
+</code></pre><blockquote>
+<p>作用: 判断字符串是否是十进制数字组成</p>
+</blockquote>
+<pre><code>In [12]: str1 = &apos;12221.2&apos;
+
+In [13]: str1.isdecimal()
+Out[13]: False
+
+In [14]: str1 = &apos;12221&apos;
+
+In [15]: str1.isdecimal()
+Out[15]: True
+</code></pre><h2 id="isdigit-②"><a href="#isdigit-②" class="headerlink" title="isdigit ②"></a><code>isdigit</code> <code>②</code></h2><pre><code>|  isdigit(...)
+|      S.isdigit() -&gt; bool # 返回布尔类型
+|
+|      Return True if all characters in S are digits
+|      and there is at least one character in S, False otherwise.
+</code></pre><blockquote>
+<p>作用: 判断字符串是否是数字组成; 数字包括十进制字符和需要特殊处理的数字，如兼容性上标数字。 这包括不能用于在基数10中形成数字的数字，如Kharosthi数字。 正式地，数字是具有属性值Numeric_Type = Digit或Numeric_Type = Decimal的字符。</p>
+</blockquote>
+<pre><code>In [18]: str1 = &apos;12②&apos;
+
+In [19]: str1.isdecimal()
+Out[19]: False
+
+In [20]: str1.isdigit()
+Out[20]: True
+</code></pre><h2 id="isidentifier"><a href="#isidentifier" class="headerlink" title="isidentifier"></a><code>isidentifier</code></h2><pre><code>|  isidentifier(...)
+|      S.isidentifier() -&gt; bool # 返回布尔类型
+|
+|      Return True if S is a valid identifier according
+|      to the language definition.
+|
+|      Use keyword.iskeyword() to test for reserved identifiers
+|      such as &quot;def&quot; and &quot;class&quot;.
+</code></pre><blockquote>
+<p>作用: 判断是否是有效的标识符</p>
+</blockquote>
+<pre><code>In [44]: str1 = &apos;1pls&apos;
+
+In [45]: str1.isidentifier()
+Out[45]: False
+
+In [46]: str1 = &apos;Np&apos;
+
+In [47]: str1.isidentifier()
+Out[47]: True
+</code></pre><h2 id="islower"><a href="#islower" class="headerlink" title="islower"></a><code>islower</code></h2><pre><code>|  islower(...)
+|      S.islower() -&gt; bool # 返回布尔类型
+|
+|      Return True if all cased characters in S are lowercase and there is
+|      at least one cased character in S, False otherwise.
+</code></pre><blockquote>
+<p>作用: 判断字符串中的字母是否都是由小写字符组成</p>
+</blockquote>
+<pre><code>In [49]: str1 = &apos;12dd&apos;
+
+In [50]: str1.islower()
+Out[50]: True
+
+In [51]: str1 = &apos;12ddZ&apos;
+
+In [52]: str1.islower()
+Out[52]: False
+
+In [53]: str1 = &apos;12dd水电费&apos;
+
+In [54]: str1.islower()
+Out[54]: True
+</code></pre><h2 id="isnumeric-123-一二三-①②③"><a href="#isnumeric-123-一二三-①②③" class="headerlink" title="isnumeric 123/一二三/①②③"></a><code>isnumeric</code> <code>123/一二三/①②③</code></h2><pre><code>|  isnumeric(...)
+|      S.isnumeric() -&gt; bool # 返回布尔类型
+|
+|      Return True if there are only numeric characters in S,
+|      False otherwise.
+</code></pre><blockquote>
+<p>作用: 判断字符串是否都是由数字字符组成</p>
+</blockquote>
+<pre><code>In [71]: str1 = &apos;123一二三①②③&apos;
+
+In [72]: str1.isnumeric()
+Out[72]: True
+
+In [73]: str1
+Out[73]: &apos;123一二三①②③&apos;
+
+In [74]: str1 = &apos;ss123一二三①②③&apos;
+
+In [75]: str1.isnumeric()
+Out[75]: False
+</code></pre><h2 id="isprintable"><a href="#isprintable" class="headerlink" title="isprintable"></a><code>isprintable</code></h2><pre><code>|  isprintable(...)
+|      S.isprintable() -&gt; bool # 返回布尔类型
+|
+|      Return True if all characters in S are considered
+|      printable in repr() or S is empty, False otherwise.
+</code></pre><blockquote>
+<p>作用: 判断字符串中的字符是否都可打印</p>
+</blockquote>
+<pre><code>In [76]: str1.isprintable()
+Out[76]: True
+
+In [77]: str1
+Out[77]: &apos;ss123一二三①②③&apos;
+
+In [78]: str1 = &apos; &apos;
+
+In [79]: str1.isprintable()
+Out[79]: True
+
+In [80]: str1 = &apos; \n&apos;
+
+In [81]: str1.isprintable()
+Out[81]: False
+
+In [82]: str1 = &apos; \t&apos;
+
+In [83]: str1.isprintable()
+Out[83]: False
+
+In [84]: str1 = &apos; \b&apos;
+
+In [85]: str1.isprintable()
+Out[85]: False
+</code></pre><h2 id="isspace"><a href="#isspace" class="headerlink" title="isspace"></a><code>isspace</code></h2><pre><code>|  isspace(...)
+|      S.isspace() -&gt; bool # 返回布尔类型
+|
+|      Return True if all characters in S are whitespace
+|      and there is at least one character in S, False otherwise.
+</code></pre><blockquote>
+<p>作用: 判断字符串中是否都只是空白字符</p>
+</blockquote>
+<pre><code>In [88]: str1 = &apos; \n&apos;
+
+In [89]: str1.isspace()
+Out[89]: True
+
+In [90]: str1 = &apos; \t&apos;
+
+In [91]: str1.isspace()
+Out[91]: True
+
+In [92]: str1 = &apos;    &apos;
+
+In [93]: str1.isspace()
+Out[93]: True
+
+In [94]: str1 = &apos;   ee  &apos;
+
+In [95]: str1.isspace()
+Out[95]: False
+</code></pre><h2 id="istitle"><a href="#istitle" class="headerlink" title="istitle"></a><code>istitle</code></h2><pre><code>|  istitle(...)
+|      S.istitle() -&gt; bool # 返回布尔类型
+|
+|      Return True if S is a titlecased string and there is at least one
+|      character in S, i.e. upper- and titlecase characters may only
+|      follow uncased characters and lowercase characters only cased ones.
+|      Return False otherwise.
+</code></pre><blockquote>
+<p>作用: 判断字符串中的子串是否都是首字母大写</p>
+</blockquote>
+<pre><code>In [96]: str1 = &apos;Alex&apos;
+
+In [97]: str1.istitle()
+Out[97]: True
+
+In [98]: str1 = &apos;alex Is Teacher&apos;
+
+In [99]: str1.istitle()
+Out[99]: False
+
+In [100]: str1 = &apos;Alex Is Teacher&apos;
+
+In [101]: str1.istitle()
+Out[101]: True
+
+In [102]: str1 = &quot;He&apos;s Is W&quot;
+
+In [103]: str1.istitle()
+Out[103]: False
+
+In [104]: str1 = &quot;He&apos;S Is W&quot;
+
+In [105]: str1.istitle()
+Out[106]: True
+</code></pre><h2 id="isupper"><a href="#isupper" class="headerlink" title="isupper"></a><code>isupper</code></h2><pre><code>|  isupper(...)
+|      S.isupper() -&gt; bool # 返回布尔类型
+|
+|      Return True if all cased characters in S are uppercase and there is
+|      at least one cased character in S, False otherwise.
+</code></pre><blockquote>
+<p>作用: 判断字符串中的字母是否都是由大写字符组成</p>
+</blockquote>
+<pre><code>In [108]: str1 = &apos;ALEX666&apos;
+
+In [109]: str1.isupper()
+Out[109]: True
+
+In [110]: str1 = &apos;ALEX666是&apos;
+
+In [111]: str1.isupper()
+Out[111]: True
+
+In [112]: str1 = &apos;aLEX666是&apos;
+
+In [113]: str1.isupper()
+Out[113]: False
+</code></pre><h2 id="join"><a href="#join" class="headerlink" title="join"></a><code>join</code></h2><pre><code>|  join(...)
+|      S.join(iterable) -&gt; str # 返回字符串
+|
+|      Return a string which is the concatenation of the strings in the
+|      iterable.  The separator between elements is S.
+</code></pre><blockquote>
+<p>作用: 拼接<strong>字符串</strong>元素,拼接符可以自定;参数是一个可迭代对象</p>
+</blockquote>
+<pre><code>In [116]: str1 = &apos;12345&apos;
+
+In [117]: &apos;_&apos;.join(str1)
+Out[117]: &apos;1_2_3_4_5&apos;
+
+In [118]: l1 = [1,2,3,4,5]
+
+In [119]: &apos;_&apos;.join(l1)
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+&lt;ipython-input-119-fc0e9d034527&gt; in &lt;module&gt;()
+----&gt; 1 &apos;_&apos;.join(l1)
+
+TypeError: sequence item 0: expected str instance, int found
+
+In [120]: l1 = [&apos;1&apos;,&apos;2&apos;,&apos;3&apos;,&apos;4&apos;,&apos;5&apos;]
+
+In [121]: &apos;_&apos;.join(l1)
+Out[121]: &apos;1_2_3_4_5&apos;
+
+In [123]: d1 = {&apos;k1&apos;:&apos;v1&apos;,&apos;k2&apos;:&apos;v2&apos;}
+
+In [124]: &apos;_&apos;.join(d1)
+Out[124]: &apos;k2_k1&apos;
+
+In [126]: &apos;_&apos;.join(d1.keys())
+Out[126]: &apos;k2_k1&apos;
+
+In [127]: &apos;_&apos;.join(d1.values())
+Out[127]: &apos;v2_v1&apos;
+</code></pre><h2 id="ljust"><a href="#ljust" class="headerlink" title="ljust"></a><code>ljust</code></h2><pre><code>|  ljust(...)
+|      S.ljust(width[, fillchar]) -&gt; str # 返回一个str
+|
+|      Return S left-justified in a Unicode string of length width. Padding is
+|      done using the specified fill character (default is a space).
+</code></pre><blockquote>
+<p>作用: 返回一个原字符串左对齐,并使用空格填充至指定长度的新字符串。如果指定的长度小于原字符串的长度则返回原字符串。</p>
+</blockquote>
+<pre><code>In [128]: str1 = &apos;12345&apos;
+
+In [129]: str1.ljust(4,&apos;|&apos;)
+Out[129]: &apos;12345&apos;
+
+In [130]: str1.ljust(10,&apos;|&apos;)
+Out[130]: &apos;12345|||||&apos;
+</code></pre><h2 id="lower"><a href="#lower" class="headerlink" title="lower"></a><code>lower</code></h2><pre><code>|  lower(...)
+|      S.lower() -&gt; str # 返回一个str
+|
+|      Return a copy of the string S converted to lowercase.
+</code></pre><blockquote>
+<p>作用: 把字符串中的字母全部变小写</p>
+</blockquote>
+<pre><code>In [134]: str1 = &apos;Life is short, I use Python! 666&apos;
+
+In [135]: str1.lower()
+Out[135]: &apos;life is short, i use python! 666&apos;
+</code></pre><h2 id="lstrip"><a href="#lstrip" class="headerlink" title="lstrip"></a><code>lstrip</code></h2><pre><code>|  lstrip(...)
+|      S.lstrip([chars]) -&gt; str # 返回一个str
+|
+|      Return a copy of the string S with leading whitespace removed.
+|      If chars is given and not None, remove characters in chars instead.
+</code></pre><blockquote>
+<p>作用: 返回字符串的副本，并删除主角。 chars参数是一个字符串，指定要删除的字符集。 如果省略或无，则chars参数默认为删除空格。 chars参数不是前缀; 相反，其值的所有组合都被剥离.<br>        (按照字符串的首字符来从子串集合中查找,如果有就删除;删除完继续从子串中查找下一个,依次类推.直到,在子串中找不到首字符.)</p>
+</blockquote>
+<pre><code>In [136]: str1 = &apos; \tHappy Life!&apos;
+
+In [137]: str1.lstrip()
+Out[137]: &apos;Happy Life!&apos;
+
+In [138]: str1 = &apos;\n \tHappy Life!&apos;
+
+In [140]: str1.lstrip()
+Out[140]: &apos;Happy Life!&apos;
+
+In [141]: str1.lstrip(&apos;A&apos;)
+Out[141]: &apos;\n \tHappy Life!&apos;
+
+In [142]: str1.lstrip(&apos;a&apos;)
+Out[142]: &apos;\n \tHappy Life!&apos;
+
+In [143]: str1.lstrip(&apos;H&apos;)
+Out[143]: &apos;\n \tHappy Life!&apos;
+
+In [144]: str1.lstrip(&apos;Ha &apos;)
+Out[144]: &apos;\n \tHappy Life!&apos;
+
+In [145]: str1.lstrip(&apos;Ha \t&apos;)
+Out[145]: &apos;\n \tHappy Life!&apos;
+
+In [146]: str1.lstrip(&apos;Ha \n\t&apos;)
+Out[146]: &apos;ppy Life!&apos;
+</code></pre><h2 id="partition"><a href="#partition" class="headerlink" title="partition"></a><code>partition</code></h2><pre><code>|  partition(...)
+|      S.partition(sep) -&gt; (head, sep, tail) # 返回一个三元组
+|
+|      Search for the separator sep in S, and return the part before it,
+|      the separator itself, and the part after it.  If the separator is not
+|      found, return S and two empty strings.
+</code></pre><blockquote>
+<p>作用: 在第一次出现sep时分割字符串，并返回一个3元组，其中包含分隔符之前的部分，分隔符本身和分隔符之后的部分。 如果没有找到分隔符，返回一个包含该字符串本身的3元组，然后返回两个空字符串。</p>
+</blockquote>
+<pre><code>In [154]: str1 = &apos;11223333445566&apos;
+
+In [155]: str1.partition(&apos;3&apos;)
+Out[155]: (&apos;1122&apos;, &apos;3&apos;, &apos;333445566&apos;)
+
+In [156]: str1.partition(&apos;33&apos;)
+Out[156]: (&apos;1122&apos;, &apos;33&apos;, &apos;33445566&apos;)
+
+In [157]: str1.partition(&apos;33333&apos;)
+Out[157]: (&apos;11223333445566&apos;, &apos;&apos;, &apos;&apos;)
+</code></pre><h2 id="replace"><a href="#replace" class="headerlink" title="replace"></a><code>replace</code></h2><pre><code>|  replace(...)
+|      S.replace(old, new[, count]) -&gt; str # 返回一个字符串
+|
+|      Return a copy of S with all occurrences of substring
+|      old replaced by new.  If the optional argument count is
+|      given, only the first count occurrences are replaced.
+</code></pre><blockquote>
+<p>作用: 替换字符串, 如果给出了次数N, 则替换N次.</p>
+</blockquote>
+<pre><code>In [164]: str1
+Out[164]: &apos;11223333445566&apos;
+
+In [165]: str1.replace(&apos;34&apos;, &apos;PP&apos;)
+Out[165]: &apos;1122333PP45566&apos;
+
+In [166]: str1.replace(&apos;44&apos;, &apos;PP&apos;)
+Out[166]: &apos;11223333PP5566&apos;
+
+In [167]: str1.replace(&apos;3&apos;, &apos;B&apos;)
+Out[167]: &apos;1122BBBB445566&apos;
+
+In [168]: str1.replace(&apos;3&apos;, &apos;LB&apos;)
+Out[168]: &apos;1122LBLBLBLB445566&apos;
+
+In [169]: str1.replace(&apos;3&apos;, &apos;LB&apos;, 7)
+Out[169]: &apos;1122LBLBLBLB445566&apos;
+
+In [170]: str1.replace(&apos;3&apos;, &apos;LB&apos;, 2)
+Out[170]: &apos;1122LBLB33445566&apos;
+
+In [171]: str1.replace(&apos;31&apos;, &apos;LB&apos;, 2)
+Out[171]: &apos;11223333445566&apos;
+</code></pre><h2 id="rfind"><a href="#rfind" class="headerlink" title="rfind"></a><code>rfind</code></h2><pre><code>|  rfind(...)
+|      S.rfind(sub[, start[, end]]) -&gt; int # 返回整型
+|
+|      Return the highest index in S where substring sub is found,
+|      such that sub is contained within S[start:end].  Optional
+|      arguments start and end are interpreted as in slice notation.
+|
+|      Return -1 on failure.
+</code></pre><blockquote>
+<p>作用: 从右开始查找,类似find. 起始位置为末尾.</p>
+</blockquote>
+<pre><code>In [172]: str1
+Out[172]: &apos;11223333445566&apos;
+
+In [173]: str1.rfind(&apos;4&apos;)
+Out[173]: 9
+
+In [174]: str1.rfind(&apos;4&apos;,3)
+Out[174]: 9
+
+In [175]: str1.rfind(&apos;4&apos;,10)
+Out[175]: -1
+
+In [176]: str1.rfind(&apos;4&apos;, 9 , 10)
+Out[176]: 9
+
+In [177]: str1.rfind(&apos;4&apos;, 6 , 9)
+Out[177]: 8
+</code></pre><h2 id="rindex"><a href="#rindex" class="headerlink" title="rindex"></a><code>rindex</code></h2><pre><code>|  rindex(...)
+|      S.rindex(sub[, start[, end]]) -&gt; int # 返回整型
+|
+|      Like S.rfind() but raise ValueError when the substring is not found.
+</code></pre><blockquote>
+<p>作用: 类似rfind, 区别在于找不到sub,则会报异常.</p>
+</blockquote>
+<pre><code>In [178]: str1
+Out[178]: &apos;11223333445566&apos;
+
+In [179]: str1.rindex(&apos;3&apos;, 8)
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+&lt;ipython-input-179-083855cb1b57&gt; in &lt;module&gt;()
+----&gt; 1 str1.rindex(&apos;3&apos;, 8)
+
+ValueError: substring not found
+</code></pre><h2 id="rjust"><a href="#rjust" class="headerlink" title="rjust"></a><code>rjust</code></h2><pre><code>|  rjust(...)
+|      S.rjust(width[, fillchar]) -&gt; str # 返回字符串
+|
+|      Return S right-justified in a string of length width. Padding is
+|      done using the specified fill character (default is a space).
+</code></pre><blockquote>
+<p>作用: 类似ljust,返回一个原字符串右对齐,并使用空格填充至指定长度的新字符串。如果指定的长度小于原字符串的长度则返回原字符串。</p>
+</blockquote>
+<pre><code>In [183]: str1 = &apos;12345&apos;
+
+In [184]: str1.rjust(8, &apos;*&apos;)
+Out[184]: &apos;***12345&apos;
+
+In [185]: str1.rjust(4, &apos;*&apos;)
+Out[185]: &apos;12345&apos;
+</code></pre><h2 id="rpartition"><a href="#rpartition" class="headerlink" title="rpartition"></a><code>rpartition</code></h2><pre><code>|  rpartition(...)
+|      S.rpartition(sep) -&gt; (head, sep, tail) # 返回一个三元组
+|
+|      Search for the separator sep in S, starting at the end of S, and return
+|      the part before it, the separator itself, and the part after it.  If the
+|      separator is not found, return two empty strings and S.
+</code></pre><blockquote>
+<p>作用: 与partition类似,返回一个三元组.从右侧开始分割.</p>
+</blockquote>
+<pre><code>In [186]: str1 = &apos;122333444455555&apos;
+
+In [187]: str1.rpartition(&apos;1&apos;)
+Out[187]: (&apos;&apos;, &apos;1&apos;, &apos;22333444455555&apos;)
+
+In [188]: str1.rpartition(&apos;4&apos;)
+Out[188]: (&apos;122333444&apos;, &apos;4&apos;, &apos;55555&apos;)
+
+In [189]: str1.rpartition(&apos;444&apos;)
+Out[189]: (&apos;1223334&apos;, &apos;444&apos;, &apos;55555&apos;)
+</code></pre><h2 id="rsplit"><a href="#rsplit" class="headerlink" title="rsplit"></a><code>rsplit</code></h2><pre><code>|  rsplit(...)
+|      S.rsplit(sep=None, maxsplit=-1) -&gt; list of strings  # 返回一个字符串列表
+|
+|      Return a list of the words in S, using sep as the
+|      delimiter string, starting at the end of the string and
+|      working to the front.  If maxsplit is given, at most maxsplit
+|      splits are done. If sep is not specified, any whitespace string
+|      is a separator.
+</code></pre><blockquote>
+<p>作用: 从右开始分割,默认分割符是一切空字符串,如果指定分割次数,则从最右侧开始分割到分割次数完成为止..</p>
+</blockquote>
+<pre><code>In [192]: str1 = &apos;a\tb\nc  def&apos;
+
+In [193]: str1
+Out[193]: &apos;a\tb\nc  def&apos;
+
+In [194]: str1.rsplit()
+Out[194]: [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;def&apos;]
+
+In [195]: str1.rsplit(&apos;\t&apos;)
+Out[195]: [&apos;a&apos;, &apos;b\nc  def&apos;]
+
+In [196]: str1.rsplit(maxsplit=1)
+Out[196]: [&apos;a\tb\nc&apos;, &apos;def&apos;]
+</code></pre><h2 id="rstrip"><a href="#rstrip" class="headerlink" title="rstrip"></a><code>rstrip</code></h2><pre><code>|  rstrip(...)
+|      S.rstrip([chars]) -&gt; str # 返回字符串
+|
+|      Return a copy of the string S with trailing whitespace removed.
+|      If chars is given and not None, remove characters in chars instead.
+</code></pre><blockquote>
+<p>作用: 与lstrip类似,区别是从右侧开始.</p>
+</blockquote>
+<pre><code>In [197]: str1 = &apos;\t test str \n&apos;
+
+In [198]: str1.rstrip()
+Out[198]: &apos;\t test str&apos;
+
+In [199]: str1.rstrip(&apos;stzr&apos;)
+Out[199]: &apos;\t test str \n&apos;
+
+In [200]: str1.rstrip(&apos;stzr\n&apos;)
+Out[200]: &apos;\t test str &apos;
+
+In [201]: str1.rstrip(&apos;stzr\n &apos;)
+Out[201]: &apos;\t te&apos;
+</code></pre><h2 id="split"><a href="#split" class="headerlink" title="split"></a><code>split</code></h2><pre><code>|  split(...)
+|      S.split(sep=None, maxsplit=-1) -&gt; list of strings # 返回字符串列表
+|
+|      Return a list of the words in S, using sep as the
+|      delimiter string.  If maxsplit is given, at most maxsplit
+|      splits are done. If sep is not specified or is None, any
+|      whitespace string is a separator and empty strings are
+|      removed from the result.
+</code></pre><blockquote>
+<p> 作用: 分割字符串,从左侧开始.</p>
+</blockquote>
+<pre><code>In [211]: str1 = &apos;1,,2&apos;
+
+In [212]: str1.split(&apos;,&apos;)
+Out[212]: [&apos;1&apos;, &apos;&apos;, &apos;2&apos;]
+
+In [213]: str1.split(&apos;,&apos;, maxsplit=1)
+Out[213]: [&apos;1&apos;, &apos;,2&apos;]
+</code></pre><h2 id="splitlines"><a href="#splitlines" class="headerlink" title="splitlines"></a><code>splitlines</code></h2><pre><code>|  splitlines(...)
+|      S.splitlines([keepends]) -&gt; list of strings # 返回字符串列表
+|
+|      Return a list of the lines in S, breaking at line boundaries.
+|      Line breaks are not included in the resulting list unless keepends
+|      is given and true.
+</code></pre><blockquote>
+<p>作用: 返回字符串中的行列表，以行边界为单位。 换行符不包括在结果列表中，除非给定和true。</p>
+</blockquote>
+<blockquote>
+<p>和<code>split</code>的不同,请看<code>https://docs.python.org/3/library/stdtypes.html#str.splitlines</code></p>
+</blockquote>
+<pre><code>In [216]: str1 = &apos;A b\tC\rD\nE&apos;
+
+In [217]: str1
+Out[217]: &apos;A b\tC\rD\nE&apos;
+
+In [218]: str1.splitlines()
+Out[218]: [&apos;A b\tC&apos;, &apos;D&apos;, &apos;E&apos;]
+
+In [219]: str1.splitlines(keepends=False)
+Out[219]: [&apos;A b\tC&apos;, &apos;D&apos;, &apos;E&apos;]
+
+In [220]: str1.splitlines(keepends=True)
+Out[220]: [&apos;A b\tC\r&apos;, &apos;D\n&apos;, &apos;E&apos;]
+</code></pre><h2 id="startswith"><a href="#startswith" class="headerlink" title="startswith"></a><code>startswith</code></h2><pre><code>|  startswith(...)
+|      S.startswith(prefix[, start[, end]]) -&gt; bool # 返回布尔值
+|
+|      Return True if S starts with the specified prefix, False otherwise.
+|      With optional start, test S beginning at that position.
+|      With optional end, stop comparing S at that position.
+|      prefix can also be a tuple of strings to try.
+</code></pre><blockquote>
+<p>作用: 判断是否以prefix开头, 与endswith类似</p>
+</blockquote>
+<pre><code>In [229]: str1
+Out[229]: &apos;this is isthisis&apos;
+
+In [230]: str1.startswith(&apos;this&apos;)
+Out[230]: True
+
+In [231]: str1.startswith(&apos;this isis&apos;)
+Out[231]: False
+
+In [232]: str1.startswith(&apos;is&apos;, 3)
+Out[232]: False
+
+In [233]: str1.startswith(&apos;is&apos;, 5)
+Out[233]: True
+</code></pre><h2 id="strip"><a href="#strip" class="headerlink" title="strip"></a><code>strip</code></h2><pre><code>|  strip(...)
+|      S.strip([chars]) -&gt; str # 返回字符串
+|
+|      Return a copy of the string S with leading and trailing
+|      whitespace removed.
+|      If chars is given and not None, remove characters in chars instead.
+</code></pre><blockquote>
+<p>作用: 去除字符串两边的指定字符,默认去除空白字符. 与lstrip和rstrip类似</p>
+</blockquote>
+<pre><code>In [235]: comment_string = &apos;#....... Section 3.2.1 Issue #32 .......&apos;
+
+In [236]: comment_string.strip(&apos;.#! &apos;)
+Out[236]: &apos;Section 3.2.1 Issue #32&apos;
+</code></pre><h2 id="swapcase"><a href="#swapcase" class="headerlink" title="swapcase"></a><code>swapcase</code></h2><pre><code>|  swapcase(...)
+|      S.swapcase() -&gt; str # 返回字符串
+|
+|      Return a copy of S with uppercase characters converted to lowercase
+|      and vice versa.
+</code></pre><blockquote>
+<p>作用: 大小写互转</p>
+</blockquote>
+<pre><code>In [235]: comment_string = &apos;#....... Section 3.2.1 Issue #32 .......&apos;
+
+In [240]: comment_string.swapcase()
+Out[240]: &apos;#....... sECTION 3.2.1 iSSUE #32 .......&apos;
+
+In [241]: comment_string.swapcase().swapcase()
+Out[241]: &apos;#....... Section 3.2.1 Issue #32 .......&apos;
+</code></pre><h2 id="title"><a href="#title" class="headerlink" title="title"></a><code>title</code></h2><pre><code>|  title(...)
+|      S.title() -&gt; str # 返回字符串
+|
+|      Return a titlecased version of S, i.e. words start with title case
+|      characters, all remaining cased characters have lower case.
+</code></pre><blockquote>
+<p>作用: 标题化字符串,字符串首字符大写,其余小写</p>
+</blockquote>
+<pre><code>In [247]: str1 = &quot;they&apos;re bill&apos;s friends from the UK&quot;
+
+In [248]: str1.title()
+Out[248]: &quot;They&apos;Re Bill&apos;S Friends From The Uk&quot;
+</code></pre><h2 id="upper"><a href="#upper" class="headerlink" title="upper"></a><code>upper</code></h2><pre><code>|  upper(...)
+|      S.upper() -&gt; str # 返回字符串
+|
+|      Return a copy of S converted to uppercase.
+</code></pre><blockquote>
+<p>作用: 将字符串中的字母变大写</p>
+</blockquote>
+<pre><code>In [251]: str1 = &quot;they&apos;re bill&apos;s friends from the UK 2., 2 1ssss EE&quot;
+
+In [252]: str1.upper()
+Out[252]: &quot;THEY&apos;RE BILL&apos;S FRIENDS FROM THE UK 2., 2 1SSSS EE&quot;
+</code></pre><h2 id="zfill"><a href="#zfill" class="headerlink" title="zfill"></a><code>zfill</code></h2><pre><code>|  zfill(...)
+|      S.zfill(width) -&gt; str # 返回字符串
+|
+|      Pad a numeric string S with zeros on the left, to fill a field
+|      of the specified width. The string S is never truncated.
+</code></pre><blockquote>
+<p>作用: 左侧补零</p>
+</blockquote>
+<pre><code>In [253]: str1 = &apos;1a2b3c&apos;
+
+In [254]: str1.zfill(6)
+Out[254]: &apos;1a2b3c&apos;
+
+In [255]: str1.zfill(10)
+Out[255]: &apos;00001a2b3c&apos;
+</code></pre><h2 id="maketrans"><a href="#maketrans" class="headerlink" title="maketrans"></a><code>maketrans</code></h2><pre><code>   Static methods defined here:
+|
+|  maketrans(x, y=None, z=None, /)
+|      Return a translation table usable for str.translate().
+|
+|      If there is only one argument, it must be a dictionary mapping Unicode
+|      ordinals (integers) or characters to Unicode ordinals, strings or None.
+|      Character keys will be then converted to ordinals.
+|      If there are two arguments, they must be strings of equal length, and
+|      in the resulting dictionary, each character in x will be mapped to the
+|      character at the same position in y. If there is a third argument, it
+|      must be a string, whose characters will be mapped to None in the result.
+</code></pre><blockquote>
+<p>作用: 此方法为str的静态方法,只有str可以调用.用来制作转换表.</p>
+</blockquote>
+<pre><code>In [257]: t1 = str.maketrans({&apos;1&apos;:&apos;ab&apos;})
+
+In [260]: t2 = str.maketrans(&apos;12345&apos;,&apos;abcde&apos;)
+
+In [260]: t2 = str.maketrans(&apos;12345&apos;,&apos;abcde&apos;,&apos;6&apos;)
+</code></pre><h2 id="translate"><a href="#translate" class="headerlink" title="translate"></a><code>translate</code></h2><pre><code>|  translate(...)
+|      S.translate(table) -&gt; str # 返回字符串
+|
+|      Return a copy of the string S in which each character has been mapped
+|      through the given translation table. The table must implement
+|      lookup/indexing via __getitem__, for instance a dictionary or list,
+|      mapping Unicode ordinals to Unicode ordinals, strings, or None. If
+|      this operation raises LookupError, the character is left untouched.
+|      Characters mapped to None are deleted.
+</code></pre><blockquote>
+<p>作用: 通过给定的转换表返回每个字符映射的字符串S的副本。 该表必须通过<strong>getitem</strong>实现查找/索引，例如字典或列表，将Unicode序号映射为Unicode序数，字符串或无。 如果此操作引发LookupError，则该字符保持不变。 映射到无的字符将被删除。</p>
+</blockquote>
+<pre><code>In [257]: t1 = str.maketrans({&apos;1&apos;:&apos;ab&apos;})
+
+In [258]: str1 = &apos;1cde&apos;
+
+In [259]: str1.translate(t1)
+Out[259]: &apos;abcde&apos;
+
+In [261]: str2 = &apos;123456&apos;
+
+In [263]: t2 = str.maketrans(&apos;12345&apos;,&apos;abcde&apos;,&apos;6&apos;)
+
+In [264]: str2.translate(t2)
+Out[264]: &apos;abcde&apos;
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/15/openvpn_multi-user/" rel="next" title="OpenVPN为指定客户端配置规则和访问策略">
+                <i class="fa fa-chevron-left"></i> OpenVPN为指定客户端配置规则和访问策略
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/10/list_sum/" rel="prev" title="Python3 列表方法总结">
+                Python3 列表方法总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/foys.jpg"
+                alt="Alibner" />
+            
+              <p class="site-author-name" itemprop="name">Alibner</p>
+              <p class="site-description motion-element" itemprop="description">人生苦短，必须性感。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/alibner" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lispgyy@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/lspgyy" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.osyunwei.com/" title="OSYUNWEI" target="_blank">OSYUNWEI</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.nginx.cn/" title="系统运维架构" target="_blank">系统运维架构</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://linux.cn/tech/sa/" title="开源中文社区" target="_blank">开源中文社区</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="阮老师的博客" target="_blank">阮老师的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#capitalize"><span class="nav-number">1.</span> <span class="nav-text">capitalize</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#casefold"><span class="nav-number">2.</span> <span class="nav-text">casefold</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#center"><span class="nav-number">3.</span> <span class="nav-text">center</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#count"><span class="nav-number">4.</span> <span class="nav-text">count</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#encode"><span class="nav-number">5.</span> <span class="nav-text">encode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#endswith"><span class="nav-number">6.</span> <span class="nav-text">endswith</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#expandtabs"><span class="nav-number">7.</span> <span class="nav-text">expandtabs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">8.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#format"><span class="nav-number">9.</span> <span class="nav-text">format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#format-map"><span class="nav-number">10.</span> <span class="nav-text">format_map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#index"><span class="nav-number">11.</span> <span class="nav-text">index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isalnum"><span class="nav-number">12.</span> <span class="nav-text">isalnum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isalpha"><span class="nav-number">13.</span> <span class="nav-text">isalpha</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isdecimal-123"><span class="nav-number">14.</span> <span class="nav-text">isdecimal 123</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isdigit-②"><span class="nav-number">15.</span> <span class="nav-text">isdigit ②</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isidentifier"><span class="nav-number">16.</span> <span class="nav-text">isidentifier</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#islower"><span class="nav-number">17.</span> <span class="nav-text">islower</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isnumeric-123-一二三-①②③"><span class="nav-number">18.</span> <span class="nav-text">isnumeric 123/一二三/①②③</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isprintable"><span class="nav-number">19.</span> <span class="nav-text">isprintable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isspace"><span class="nav-number">20.</span> <span class="nav-text">isspace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#istitle"><span class="nav-number">21.</span> <span class="nav-text">istitle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isupper"><span class="nav-number">22.</span> <span class="nav-text">isupper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#join"><span class="nav-number">23.</span> <span class="nav-text">join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ljust"><span class="nav-number">24.</span> <span class="nav-text">ljust</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lower"><span class="nav-number">25.</span> <span class="nav-text">lower</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lstrip"><span class="nav-number">26.</span> <span class="nav-text">lstrip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#partition"><span class="nav-number">27.</span> <span class="nav-text">partition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#replace"><span class="nav-number">28.</span> <span class="nav-text">replace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rfind"><span class="nav-number">29.</span> <span class="nav-text">rfind</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rindex"><span class="nav-number">30.</span> <span class="nav-text">rindex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rjust"><span class="nav-number">31.</span> <span class="nav-text">rjust</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rpartition"><span class="nav-number">32.</span> <span class="nav-text">rpartition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rsplit"><span class="nav-number">33.</span> <span class="nav-text">rsplit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rstrip"><span class="nav-number">34.</span> <span class="nav-text">rstrip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#split"><span class="nav-number">35.</span> <span class="nav-text">split</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#splitlines"><span class="nav-number">36.</span> <span class="nav-text">splitlines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#startswith"><span class="nav-number">37.</span> <span class="nav-text">startswith</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strip"><span class="nav-number">38.</span> <span class="nav-text">strip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#swapcase"><span class="nav-number">39.</span> <span class="nav-text">swapcase</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#title"><span class="nav-number">40.</span> <span class="nav-text">title</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#upper"><span class="nav-number">41.</span> <span class="nav-text">upper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zfill"><span class="nav-number">42.</span> <span class="nav-text">zfill</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maketrans"><span class="nav-number">43.</span> <span class="nav-text">maketrans</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#translate"><span class="nav-number">44.</span> <span class="nav-text">translate</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alibner</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.github.com">GitHub Pages</a></div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: '0hwIbQ9AtobtT9qUKhSRyDDT-gzGzoHsz',
+        appKey: 'oqObERdjBMtqGyI54Qtm9WmD',
+        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+        avatar:'wavatar',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
