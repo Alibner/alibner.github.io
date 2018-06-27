@@ -155,7 +155,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Focus on and do it best.</p>
+        <h1 class="site-subtitle" itemprop="description">Focus on and do it best.</h1>
       
   </div>
 
@@ -308,7 +308,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python3 文件读写与函数</h1>
+          <h2 class="post-title" itemprop="name headline">Python3 文件读写与函数</h2>
         
 
         <div class="post-meta">
@@ -356,6 +356,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/16/file_and_func/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/05/16/file_and_func/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -372,6 +382,11 @@
              </span>
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
           
 
           
@@ -550,7 +565,7 @@
                 alt="Alibner" />
             
               <p class="site-author-name" itemprop="name">Alibner</p>
-              <p class="site-description motion-element" itemprop="description">人生苦短，必须性感。</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           <nav class="site-state motion-element">
@@ -712,9 +727,27 @@
 
 
 
-  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.github.com">GitHub Pages</a></div>
-
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
 
 
 
@@ -861,6 +894,28 @@
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'y4F4IHzMc0PxjBYNgnvKfvAs-gzGzoHsz',
+        appKey: 'fDSlVnit6tghmoWhJcXrbwAn',
+        placeholder: '欢迎交流',
+        avatar:'wavatar',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
 
 
 
