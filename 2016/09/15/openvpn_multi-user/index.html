@@ -82,7 +82,7 @@
 <meta property="og:description" content="在之前的博客里面已经写过，如何在Linux系统里面搭建openvpn来提供VPN访问；今天就来说一下多用户VPN客户端的问题。 环境说明VPN服务器IP：192.168.70.4 文件服务器：192.168.10.241 局域网网段：192.168.10.0/24，192.168.20.0/24，192.168.40.0/24，192.168.70.0/24 需求 业务组只能访问文件服务器；其他V">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://alibner.me/img/otrdept.png">
-<meta property="og:updated_time" content="2018-06-26T13:45:09.776Z">
+<meta property="og:updated_time" content="2018-06-26T17:44:53.122Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenVPN为指定客户端配置规则和访问策略">
 <meta name="twitter:description" content="在之前的博客里面已经写过，如何在Linux系统里面搭建openvpn来提供VPN访问；今天就来说一下多用户VPN客户端的问题。 环境说明VPN服务器IP：192.168.70.4 文件服务器：192.168.10.241 局域网网段：192.168.10.0/24，192.168.20.0/24，192.168.40.0/24，192.168.70.0/24 需求 业务组只能访问文件服务器；其他V">
@@ -369,16 +369,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/09/15/openvpn_multi-user/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/09/15/openvpn_multi-user/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -395,11 +385,6 @@
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
           
 
           
@@ -792,26 +777,6 @@ vim /etc/sysconfig/iptables
   <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.github.com">GitHub Pages</a></div>
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
-
 
 
 
@@ -958,28 +923,6 @@ vim /etc/sysconfig/iptables
 
 
 
-
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-  
-  <script type="text/javascript">
-    var GUEST = ['nick','mail','link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item=>{
-      return GUEST.indexOf(item)>-1;
-    });
-    new Valine({
-        el: '#comments' ,
-        verify: true,
-        notify: true,
-        appId: '0hwIbQ9AtobtT9qUKhSRyDDT-gzGzoHsz',
-        appKey: 'oqObERdjBMtqGyI54Qtm9WmD',
-        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
-        avatar:'wavatar',
-        guest_info:guest,
-        pageSize:'10' || 10,
-    });
-  </script>
 
 
 

@@ -82,7 +82,7 @@
 <meta property="og:description" content="常常有这样的需求，帮我开放一个外网IP访问某个内部系统，开放一个数据库端口。。。等。这个时候，你就在出口的防火墙上做映射，将这些服务的监听IP和PORT给映射出去。其实这么做，应该是最省事也是最简单的方式；做NAT并且限制好访问者算是一个好的策略。但是如果这种需求多了，是否就需要做很多类似这样的NAT策略；其实可以见招拆招；找到更好的方式去实现即可。 今天就介绍我经常使用的一种方式，就是VPN。只">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://alibner.me/img/ls_show.png">
-<meta property="og:updated_time" content="2018-06-26T13:45:09.776Z">
+<meta property="og:updated_time" content="2018-06-26T17:44:53.122Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos搭建openVPN提供VPN访问">
 <meta name="twitter:description" content="常常有这样的需求，帮我开放一个外网IP访问某个内部系统，开放一个数据库端口。。。等。这个时候，你就在出口的防火墙上做映射，将这些服务的监听IP和PORT给映射出去。其实这么做，应该是最省事也是最简单的方式；做NAT并且限制好访问者算是一个好的策略。但是如果这种需求多了，是否就需要做很多类似这样的NAT策略；其实可以见招拆招；找到更好的方式去实现即可。 今天就介绍我经常使用的一种方式，就是VPN。只">
@@ -369,16 +369,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/07/08/openvpn-for-vpn/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/07/08/openvpn-for-vpn/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -395,11 +385,6 @@
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
           
 
           
@@ -842,26 +827,6 @@ verb 3
   <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.github.com">GitHub Pages</a></div>
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
-
 
 
 
@@ -1008,28 +973,6 @@ verb 3
 
 
 
-
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-  
-  <script type="text/javascript">
-    var GUEST = ['nick','mail','link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item=>{
-      return GUEST.indexOf(item)>-1;
-    });
-    new Valine({
-        el: '#comments' ,
-        verify: true,
-        notify: true,
-        appId: '0hwIbQ9AtobtT9qUKhSRyDDT-gzGzoHsz',
-        appKey: 'oqObERdjBMtqGyI54Qtm9WmD',
-        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
-        avatar:'wavatar',
-        guest_info:guest,
-        pageSize:'10' || 10,
-    });
-  </script>
 
 
 

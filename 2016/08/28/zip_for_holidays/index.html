@@ -81,7 +81,7 @@
 <meta property="og:site_name" content="Alibner&#39; Blog">
 <meta property="og:description" content="打包并且发送系统生成的文件需求背景按理说这个需求并不难；一般来说，通过写shell脚本就可以实现这个功能。 但是。。。 运营部门的同事还需要：“工作日每天发送，节假日不发送，节假日后上班第一天发送节假日这几天的文件。” 这个需求需要调取API，方可实现。  在网上找到了一些公用的API，百度上面有一个，但是用不了。 showapi是个不错的选择；注册账号申请一个地址即可。 分析思路下面说一下实现思">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-26T13:45:09.912Z">
+<meta property="og:updated_time" content="2018-06-26T17:44:53.126Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="打包文件并且在非节假日发送">
 <meta name="twitter:description" content="打包并且发送系统生成的文件需求背景按理说这个需求并不难；一般来说，通过写shell脚本就可以实现这个功能。 但是。。。 运营部门的同事还需要：“工作日每天发送，节假日不发送，节假日后上班第一天发送节假日这几天的文件。” 这个需求需要调取API，方可实现。  在网上找到了一些公用的API，百度上面有一个，但是用不了。 showapi是个不错的选择；注册账号申请一个地址即可。 分析思路下面说一下实现思">
@@ -367,16 +367,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/08/28/zip_for_holidays/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/08/28/zip_for_holidays/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -393,11 +383,6 @@
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
           
 
           
@@ -834,26 +819,6 @@ except Exception as e:
   <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.github.com">GitHub Pages</a></div>
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
-
 
 
 
@@ -1000,28 +965,6 @@ except Exception as e:
 
 
 
-
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-  
-  <script type="text/javascript">
-    var GUEST = ['nick','mail','link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item=>{
-      return GUEST.indexOf(item)>-1;
-    });
-    new Valine({
-        el: '#comments' ,
-        verify: true,
-        notify: true,
-        appId: '0hwIbQ9AtobtT9qUKhSRyDDT-gzGzoHsz',
-        appKey: 'oqObERdjBMtqGyI54Qtm9WmD',
-        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
-        avatar:'wavatar',
-        guest_info:guest,
-        pageSize:'10' || 10,
-    });
-  </script>
 
 
 
